@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
-import { Button } from './ui/button';
+import { useState } from 'react';
+import { Button } from '../ui/button';
 
-const MealListItem = ({ meal, onEdit = () => {}, editButton = null }) => {
+interface MealListItemProps {
+  meal: {
+    id: string;
+    title: string;
+    energy: number;
+    date: string;
+    protein: number;
+    carbohydrate: number;
+    fat: number;
+    category: string;
+  },
+  onEdit?: (meal: MealListItemProps['meal']) => void;
+  editButton?: React.ReactNode;
+}
+
+const MealListItem = ({ meal, onEdit = () => {}, editButton = null }: MealListItemProps) => {
   const [showDetails, setShowDetails] = useState(false);
 
-  const toggleDetails = (event) => {
+  const toggleDetails = (event: React.MouseEvent<HTMLDetailsElement>) => {
     event.preventDefault(); // Prevent native <details> behavior
     setShowDetails(!showDetails);
   };
@@ -39,7 +54,7 @@ const MealListItem = ({ meal, onEdit = () => {}, editButton = null }) => {
         </div>
       )}
       {editButton && (
-        <Button onClick={(e) => { e.stopPropagation(); onEdit(meal); }}>
+        <Button size={"sm"} className="" variant="secondary" onClick={(e: React.MouseEvent) => { e.stopPropagation(); onEdit?.(meal); }}>
           Edit
         </Button>
       )}
@@ -48,3 +63,4 @@ const MealListItem = ({ meal, onEdit = () => {}, editButton = null }) => {
 };
 
 export default MealListItem;
+

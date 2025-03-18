@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import MealListItem from '../MealListItem';
+import MealListItem from '../MealList/MealListItem';
 import { Button } from '../ui/button';
 import { PlusCircle } from 'lucide-react';
 
