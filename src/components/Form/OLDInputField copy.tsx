@@ -1,12 +1,12 @@
 
 
-export interface InputFieldProps {
+interface InputFieldProps {
   id: string;
   name?: string;
   type?: 'text' | 'textarea' | 'select' | 'number' | 'date' | 'time';
   placeholder?: string;
   value?: string | number;
-  label?: string;
+  title?: string;
   onChange: (e: React.ChangeEvent<any>) => void;
   required?: boolean;
   errorMessage?: string;
@@ -16,45 +16,40 @@ export interface InputFieldProps {
 
 const InputField: React.FC<InputFieldProps> = ({
   id,
-  name = id, 
+  name = id,  // Default to id if name is not provided
   type = 'text',
   placeholder,
   value,
-  label,
-  onChange, // ✅ No need to pass explicitly every time
+  title,
+  onChange,
   required,
   errorMessage,
   unit,
   options,
 }) => {
-  
-  const defaultOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    console.warn(`No onChange function provided for ${name}.`);
-  };
-
   return (
     <div className="input-field" id={id}>
       <div className="input-field-wrapper">
-        {label && <label htmlFor={id}>{label}</label>}  
+        {title && <label htmlFor={id}>{title}</label>}  {/* Correct htmlFor */}
         {required && <span className="required">*</span>}
       </div>
 
       {type === 'textarea' ? (
         <textarea
           id={id}
-          name={name}  
+          name={name}  // Use name attribute correctly
           placeholder={placeholder}
           value={value}
-          onChange={onChange || defaultOnChange} // ✅ Apply default if missing
+          onChange={onChange}
           className={errorMessage ? 'input-error' : ''}
           aria-invalid={!!errorMessage}
         />
       ) : type === 'select' && options ? (
         <select
           id={id}
-          name={name}  
+          name={name}  // Use name attribute correctly
           value={value}
-          onChange={onChange || defaultOnChange} // ✅ Apply default if missing
+          onChange={onChange}
           className={errorMessage ? 'input-error' : ''}
           aria-invalid={!!errorMessage}
         >
@@ -69,12 +64,12 @@ const InputField: React.FC<InputFieldProps> = ({
         <div className="input-and-unit">
           <input
             id={id}
-            name={name}  
+            name={name}  // Use name attribute correctly
             type={type}
             placeholder={placeholder}
             required={required}
             value={value}
-            onChange={onChange || defaultOnChange} // ✅ Apply default if missing
+            onChange={onChange}
             className={errorMessage ? 'input-error' : ''}
             aria-invalid={!!errorMessage}
           />
@@ -83,12 +78,12 @@ const InputField: React.FC<InputFieldProps> = ({
       ) : (
         <input
           id={id}
-          name={name}  
+          name={name}  // Use name attribute correctly
           type={type}
           placeholder={placeholder}
           required={required}
           value={value}
-          onChange={onChange || defaultOnChange} // ✅ Apply default if missing
+          onChange={onChange}
           className={errorMessage ? 'input-error' : ''}
           aria-invalid={!!errorMessage}
         />
