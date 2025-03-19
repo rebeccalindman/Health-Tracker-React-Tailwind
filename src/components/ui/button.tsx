@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
-import { cva } from "class-variance-authority";
+import { cva } from "class-variance-authority"
+import type { PolymorphicProps } from "@radix-ui/react-slot"
 
 import { cn } from "@/lib/utils"
 
@@ -15,7 +16,8 @@ const buttonVariants = cva(
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
         outline:
           "border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
-          secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-accent hover:text-white", // ✅ Ensure hover doesn't force white
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-xs hover:bg-accent hover:text-white", // ✅ Ensure hover doesn't force white
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
@@ -33,21 +35,35 @@ const buttonVariants = cva(
   }
 )
 
-function Button({
-  className,
-  variant,
-  size,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot : "button"
+type ButtonVariants = typeof buttonVariants["variants"]
 
-  return (
-    <Comp
-      data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props} />
-  );
-}
+type ButtonProps = PolymorphicProps<
+  React.ComponentPropsWithoutRef<"button">,
+  {
+    variant?: keyof ButtonVariants["variant"]
+    size?: keyof ButtonVariants["size"]
+    asChild?: boolean
+    className?: string
+  }
+>
 
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+
+    return (
+      <Comp
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+
+Button.displayName = "Button"
+
+export type { ButtonVariants }
 export { Button, buttonVariants }
+
