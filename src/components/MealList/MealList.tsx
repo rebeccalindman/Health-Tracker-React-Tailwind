@@ -10,7 +10,7 @@ const MealList = ({ meals = [], onEdit }: MealListProps) => {
   const sortedMeals = [...(meals || [])].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <div className="card w-fit">
+    <div className="card w-full">
       <h2 className="text-2xl font-bold mb-4 text-center text-primary">Loggade måltider</h2>
       {sortedMeals.length > 0 ? (
         <div className="flex flex-wrap justify-center items-center -mx-2 gap-2 w-fit">

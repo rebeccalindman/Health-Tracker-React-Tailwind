@@ -23,6 +23,7 @@ export interface InputFieldProps {
   unit?: string;
   options?: { value: string | number; label: string }[];
   isSubmitted?: boolean
+  disabled?: boolean
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -36,7 +37,8 @@ const InputField: React.FC<InputFieldProps> = ({
   errorMessage,
   unit,
   options,
-  isSubmitted
+  isSubmitted,
+  disabled
 }) => {
   
   const defaultOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -66,6 +68,7 @@ const InputField: React.FC<InputFieldProps> = ({
           className={stylingInput}
           aria-invalid={!!errorMessage}
           required = {required}
+          disabled={disabled}
         />
       ) : type === 'select' && options ? (
         <select
@@ -76,6 +79,7 @@ const InputField: React.FC<InputFieldProps> = ({
           onChange={onChange} 
           className={stylingInput + ' ' + ` py-2`}
           aria-invalid={!!errorMessage}
+          disabled={disabled}
         >
           <option value="">Select an option</option>
           {options.map((option, index) => (
@@ -96,6 +100,7 @@ const InputField: React.FC<InputFieldProps> = ({
             onChange={onChange} 
             className={stylingInput}
             aria-invalid={!!errorMessage}
+            disabled={disabled}
           />
           <p className="text-accent">{unit}</p>
         </div>
@@ -110,6 +115,7 @@ const InputField: React.FC<InputFieldProps> = ({
           onChange={onChange || defaultOnChange} // ✅ Apply default if missing
           className={stylingInput}
           aria-invalid={!!errorMessage}
+          disabled={disabled}
         />
       )}
 
@@ -119,3 +125,4 @@ const InputField: React.FC<InputFieldProps> = ({
 };
 
 export default InputField;
+

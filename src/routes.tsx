@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import App from "./App";
 import Dashboard from "./pages/Dashboard";
 
 // Ladda komponenter asynkront
-const MealLog = lazy(() => import("./pages/MealLog"));
-const ProfileForm = lazy(() => import("./pages/ProfileForm"));
-const ProfileCard = lazy(() => import("./pages/ProfileCard"));
+const MealLog = lazy(() => import("./pages/MealLog/MealLogView"));
+const ProfileForm = lazy(() => import("./pages/Profile/ProfileForm"));
+const ProfileView = lazy(() => import("./pages/Profile/ProfileView"));
 
 const router = createBrowserRouter([
   {
@@ -24,18 +24,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "profileform",
+        path: "profile",
         element: (
           <Suspense fallback={<div className="p-4 text-2xl text-accent h-screen">Loading...</div>}>
-            <ProfileForm />
-          </Suspense>
-        ),
-      },
-      {
-        path: "profilecard",
-        element: (
-          <Suspense fallback={<div className="p-4 text-2xl text-accent h-screen">Loading...</div>}>
-            <ProfileCard />
+            <ProfileView />
           </Suspense>
         ),
       },

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CurrentWeight from '../components/dashboard/CurrentWeight';
 import AddWeight from '../components/AddWeight';
 import TodaysMeals from '../components/dashboard/TodaysMeals';
 import KcalStatus from '../components/dashboard/KcalStatus';
-import WelcomeProfile from '@/components/dashboard/WelcomeProfile';
+import WelcomeProfile from '../components/dashboard/WelcomeProfile';
 import { Navigate } from 'react-router';
 import EnergyPieChart from '../components/EnergyPieChart';
 

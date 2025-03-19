@@ -1,6 +1,6 @@
 import InputField, { InputFieldProps } from "./InputField";
 
-interface FieldGroupProps {
+export interface FieldGroupProps {
   label?: string;
   fields: InputFieldProps[]; // List of fields to render
   values: { [key: string]: any }; // Current form values

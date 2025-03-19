@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import profileReducer from "./slices/profileSlice";
 import mealReducer from "./slices/mealSlice";
+import weightReducer from "./slices/weightSlice";
 import { loadMealLogs, saveMealLogs, loadProfile, saveProfile } from "../utils/storage";
 
 // Ladda data från localStorage
@@ -13,6 +14,7 @@ const store = configureStore({
   reducer: {
     profile: profileReducer,
     meals: mealReducer,
+    weight: weightReducer,
   },
   preloadedState,
 });

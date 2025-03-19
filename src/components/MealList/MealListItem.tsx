@@ -1,17 +1,9 @@
 import { useState } from 'react';
 import { Button } from '../ui/button';
+import { Meal } from '../../types/meal';
 
 interface MealListItemProps {
-  meal: {
-    id: string;
-    title: string;
-    energy: number;
-    date: string;
-    protein: number;
-    carbohydrate: number;
-    fat: number;
-    category: string;
-  },
+  meal: Meal,
   onEdit?: (meal: MealListItemProps['meal']) => void;
   editButton?: React.ReactNode;
 }

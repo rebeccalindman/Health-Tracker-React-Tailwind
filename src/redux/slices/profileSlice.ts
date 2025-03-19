@@ -1,83 +1,40 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+type ProfileState = {
+  gender: string;
+  weight: number;
+  height: number;
+  age: number;
+  activityLevel: string;
+  goal: string;
+  birthDate: string;
+  tdee: number | null;
+};
+
+
+const initialState: ProfileState = {
+  gender: "",
+  weight: 0,
+  height: 0,
+  age: 0,
+  activityLevel: "",
+  goal: "",
+  birthDate: "",
+  tdee: null,
+};
 
 const profileSlice = createSlice({
   name: "profile",
-  initialState: {
-    gender: "",
-    weight: [{ id: 0, weight: 0, date: "" }],
-    height: 0,
-    age: 0,
-    activityLevel: 1.2,
-    goal: 0,
-    tdee: 0,
-    birthDate: "åååå-mm-dd",
-  },
+  initialState,
   reducers: {
-    addWeight: (state, action) => {
-      const newWeight = {
-        id: nanoid(),
-        weight: action.payload.weight,
-        date: action.payload.date,
-      };
-      state.weight.push(newWeight);
+    setProfileData: (state, action: PayloadAction<Partial<ProfileState>>) => {
+      return { ...state, ...action.payload };
     },
-    displayWeight: (state, action) => {
-      state.weight = action.payload;
-    },
-    editWeight: (state, action) => {
-      const { id, weight, date } = action.payload;
-      const weightIndex = state.weight.findIndex((weight) => weight.id === id);
-      if (weightIndex !== -1) {
-        state.weight[weightIndex] = { id, weight, date };
-      }
-    },
-    removeWeight: (state, action) => {
-      state.weight = state.weight.filter(weight => weight.id !== action.payload.id)
-    },
-    setGender: (state, action) => {
-      state.gender = action.payload;
-    },
-    setWeight: (state, action) => {
-      state.weight = action.payload;
-    },
-    setHeight: (state, action) => {
-      state.height = action.payload;
-    },
-    setAge: (state, action) => {
-      state.age = action.payload;
-    },
-    setActivityLevel: (state, action) => {
-      state.activityLevel = action.payload;
-    },
-    setGoal: (state, action) => {
-      state.goal = parseFloat(action.payload);
-    },
-    setTDEE: (state, action) => {
+    setTDEE: (state, action: PayloadAction<number>) => {
       state.tdee = action.payload;
-    },
-    setBirthDate: (state, action) => {
-      state.birthDate = action.payload;
     },
   },
 });
 
-// Exportera reducer och actions
-export const {
-  addWeight,
-  displayWeight,
-  editWeight,
-  removeWeight,
-  setGender,
-  setWeight,
-  setHeight,
-  setAge,
-  setActivityLevel,
-  setGoal,
-  setTDEE,
-  setBirthDate,
-} = profileSlice.actions;
-
-export const selectTDEE = (state) => state.profile.tdee;
-
+export const { setProfileData, setTDEE } = profileSlice.actions;
 export default profileSlice.reducer;
-
