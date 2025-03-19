@@ -45,7 +45,7 @@ const InputField: React.FC<InputFieldProps> = ({
     console.warn(`No onChange function provided for ${name}.`);
   };
 
-  const stylingInput = `border-1 rounded w-full ${
+  const stylingInput = `border-1 rounded w-full p-1 ${
     isSubmitted && (errorMessage || (required && (value === "" || value === undefined || value === null))) 
       ? 'border-red-500' 
       : 'border-accent'
@@ -54,7 +54,7 @@ const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className="input-field" id={id}>
       <div className="flex items-start">
-        {label && <label className="text-left" htmlFor={id}>{label}</label>}  
+        {label && <label className="text-left py-1" htmlFor={id}>{label}</label>}  
         {required && <span className="text-red-500 ml-1">*</span>}
       </div>
 
@@ -76,7 +76,7 @@ const InputField: React.FC<InputFieldProps> = ({
           value={value}
           required={required}
           onChange={onChange} 
-          className={stylingInput}
+          className={stylingInput + ' ' + ` py-2`}
           aria-invalid={!!errorMessage}
         >
           <option value="">Select an option</option>
@@ -87,7 +87,7 @@ const InputField: React.FC<InputFieldProps> = ({
           ))}
         </select>
       ) : unit ? (
-        <div className="input-and-unit">
+        <div className="">
           <input
             id={id}
             name={name}  
@@ -99,7 +99,7 @@ const InputField: React.FC<InputFieldProps> = ({
             className={stylingInput}
             aria-invalid={!!errorMessage}
           />
-          <p className="unit">{unit}</p>
+          <p className="text-accent">{unit}</p>
         </div>
       ) : (
         <input

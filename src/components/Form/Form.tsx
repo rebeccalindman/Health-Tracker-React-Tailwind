@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Button } from "../ui/button";
 import InputField from "./InputField";
 import { InputFieldProps } from "./InputField";
+import FieldGroup from "./FieldGroup";
 
 type FormProps = {
     initialData?: Meal | null;
@@ -15,18 +16,65 @@ type FormProps = {
 
 
 const formFields: InputFieldProps[] = [
-    { label: "Meal", id: "title", name: "title", type: "text", required: true },
-    { label: "Energy", id: "energy", name: "energy", type: "number", required: true },
-    { label: "Date", id: "date", name: "date", type: "text", required: true },
-    { label: "Protein", id: "protein", name: "protein", type: "number", unit: "g", required: false },
-    { label: "Carbs", id: "carbohydrate", name: "carbohydrate", unit: "g", type: "number", required: false },
-    { label: "Fett", id: "fat", name: "fat", type: "number", unit: "g", required: false },
-    {label: "Category", type: "select", id: "category", name: "category", required: true, options: [
-        { value: "Breakfast", label: "Breakfast" },
-        { value: "Lunch", label: "Lunch" },
-        { value: "Dinner", label: "Dinner" },
-        { value: "Snack", label: "Snack" },
-    ]}
+    {
+        label: "Meal",
+        id: "title",
+        name: "title",
+        type: "text",
+        required: true,
+    },
+    {
+        label: "Category",
+        type: "select",
+        id: "category",
+        name: "category",
+        required: true,
+        options: [
+            { value: "Breakfast", label: "Breakfast" },
+            { value: "Lunch", label: "Lunch" },
+            { value: "Dinner", label: "Dinner" },
+            { value: "Snack", label: "Snack" },
+        ],
+    },
+    {
+        label: "Energy",
+        id: "energy",
+        name: "energy",
+        type: "number",
+        required: true,
+    },
+    {
+        label: "Date",
+        id: "date",
+        name: "date",
+        type: "date",
+        required: true,
+    },
+    {
+        label: "Protein",
+        id: "protein",
+        name: "protein",
+        type: "number",
+        unit: "g",
+        required: false,
+    },
+    {
+        label: "Carbs",
+        id: "carbohydrate",
+        name: "carbohydrate",
+        type: "number",
+        unit: "g",
+        required: false,
+    },
+    {
+        label: "Fett",
+        id: "fat",
+        name: "fat",
+        type: "number",
+        unit: "g",
+        required: false,
+    },
+    
 ];
 
 const Form: React.FC<FormProps> = ({ initialData, clearForm }) => {
@@ -36,11 +84,11 @@ const Form: React.FC<FormProps> = ({ initialData, clearForm }) => {
     const [newMeal, setNewMeal] = useState<Meal>({
         id: "",
         title: "",
-        energy: 0,
+        energy: null,
         date: "",
-        protein: 0,
-        carbohydrate: 0,
-        fat: 0,
+        protein: null,
+        carbohydrate: null,
+        fat: null,
         category: ""
     });
 
@@ -81,7 +129,7 @@ const Form: React.FC<FormProps> = ({ initialData, clearForm }) => {
             const fieldValue = newMeal[field.name as keyof Meal];
     
             if (field.required && (fieldValue === "" || fieldValue === undefined || fieldValue === null)) {
-                newErrors[field.name] = `${field.label} är obligatoriskt.`; // ✅ Set error message
+                newErrors[field.name] = `${field.label} is required.`; // ✅ Set error message
             }
         });
     
@@ -116,29 +164,56 @@ const Form: React.FC<FormProps> = ({ initialData, clearForm }) => {
     };
     
 
-    return (
-        <form onSubmit={handleSubmit} noValidate className="bg-white shadow-md card px-8 pt-6 max-w-[500px]"> {/* disabled browser built-in validation for improved UX */}
-            {formFields.map((field) => (
-                <InputField
-                    key={field.id}
-                    label={field.label}
-                    id={field.id}
-                    name={field.name}
-                    type={field.type}
-                    value={newMeal[field.name as keyof Meal] || ""}
-                    onChange={handleChange}
-                    errorMessage={errors[field.name]}
-                    options={field.options} 
-                    required={field.required}
-                    isSubmitted={isSubmitted}
-                />
-            ))}
 
-            <Button variant="default" size="md" type="submit">
-                {initialData ? "Update meal" : "Save meal"}
-            </Button>
-        </form>
-    );
+return (
+  <form onSubmit={handleSubmit} noValidate className="bg-white shadow-md card px-8 pt-6 max-w-[500px]">
+    
+    {/* Meal, Date (Full Width Fields) */}
+    {formFields
+      .filter((field) => field.name === "title" || field.name === "date" || field.name ==="category")
+      .map((field) => (
+        <InputField
+          key={field.id}
+          label={field.label}
+          id={field.id}
+          name={field.name}
+          type={field.type}
+          value={newMeal[field.name as keyof Meal] || ""}
+          onChange={handleChange}
+          errorMessage={errors[field.name]}
+          options={field.options} 
+          required={field.required}
+          isSubmitted={isSubmitted}
+        />
+      ))}
+
+    {/* Grouped Fields: Energy, Protein, Carbs, Fat */}
+    <FieldGroup label="Macronutrients">
+      {formFields
+        .filter((field) => ["energy", "protein", "carbohydrate", "fat"].includes(field.name))
+        .map((field) => (
+          <InputField
+            key={field.id}
+            label={field.label}
+            id={field.id}
+            name={field.name}
+            type={field.type}
+            value={newMeal[field.name as keyof Meal] || ""}
+            onChange={handleChange}
+            errorMessage={errors[field.name]}
+            options={field.options} 
+            required={field.required}
+            isSubmitted={isSubmitted}
+          />
+        ))}
+    </FieldGroup>
+
+    <Button variant="default" size="md" type="submit">
+      {initialData ? "Update meal" : "Save meal"}
+    </Button>
+  </form>
+);
+
 };
 
 export default Form;

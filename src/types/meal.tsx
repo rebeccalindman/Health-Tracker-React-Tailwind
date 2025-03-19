@@ -1,10 +1,10 @@
 export interface Meal {
   id: string;
   title: string;
-  energy: number;
+  energy: number | null;
   date: string;
-  protein: number;
-  carbohydrate: number;
-  fat: number;
+  protein: number | null;
+  carbohydrate: number | null;
+  fat: number | null;
   category: string;
 }
