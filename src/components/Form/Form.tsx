@@ -15,17 +15,24 @@ type FormProps = {
 
 
 const formFields: InputFieldProps[] = [
-    { label: "Måltid", id: "title", name: "title", type: "text", required: true },
-    { label: "Energi", id: "energy", name: "energy", type: "number", required: true },
-    { label: "Datum", id: "date", name: "date", type: "text", required: true },
-    { label: "Protein", id: "protein", name: "protein", type: "number", required: false },
-    { label: "Kolhydrat", id: "carbohydrate", name: "carbohydrate", type: "number", required: false },
-    { label: "Fett", id: "fat", name: "fat", type: "number", required: false }
+    { label: "Meal", id: "title", name: "title", type: "text", required: true },
+    { label: "Energy", id: "energy", name: "energy", type: "number", required: true },
+    { label: "Date", id: "date", name: "date", type: "text", required: true },
+    { label: "Protein", id: "protein", name: "protein", type: "number", unit: "g", required: false },
+    { label: "Carbs", id: "carbohydrate", name: "carbohydrate", unit: "g", type: "number", required: false },
+    { label: "Fett", id: "fat", name: "fat", type: "number", unit: "g", required: false },
+    {label: "Category", type: "select", id: "category", name: "category", required: true, options: [
+        { value: "Breakfast", label: "Breakfast" },
+        { value: "Lunch", label: "Lunch" },
+        { value: "Dinner", label: "Dinner" },
+        { value: "Snack", label: "Snack" },
+    ]}
 ];
 
 const Form: React.FC<FormProps> = ({ initialData, clearForm }) => {
     const dispatch = useDispatch();
-
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const [newMeal, setNewMeal] = useState<Meal>({
         id: "",
         title: "",
@@ -37,7 +44,7 @@ const Form: React.FC<FormProps> = ({ initialData, clearForm }) => {
         category: ""
     });
 
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    
 
     useEffect(() => {
         if (initialData) {
@@ -47,41 +54,50 @@ const Form: React.FC<FormProps> = ({ initialData, clearForm }) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-
+    
         setNewMeal((prevMeal) => ({
             ...prevMeal,
             [name]: ["energy", "protein", "carbohydrate", "fat"].includes(name)
                 ? value === "" ? "" : parseFloat(value)
                 : value
         }));
-
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: ""
-        }));
+    
+        setErrors((prevErrors) => {
+            const newErrors = { ...prevErrors };
+            if (value !== "" && value !== undefined && value !== null) {
+                delete newErrors[name]; // ✅ Clear the error when user enters valid data
+            }
+            return newErrors;
+        });
     };
+    
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        setIsSubmitted(true); // ✅ Mark form as submitted
+    
         let newErrors: { [key: string]: string } = {};
         formFields.forEach((field) => {
-            if (field.required && !newMeal[field.name as keyof Meal]) {
-                newErrors[field.name] = `${field.label} är obligatoriskt.`;
+            const fieldValue = newMeal[field.name as keyof Meal];
+    
+            if (field.required && (fieldValue === "" || fieldValue === undefined || fieldValue === null)) {
+                newErrors[field.name] = `${field.label} är obligatoriskt.`; // ✅ Set error message
             }
         });
-
+    
         if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
+            setErrors(newErrors); // ✅ This updates error messages
             return;
         }
-
+    
+        // Proceed with form submission if valid
         if (initialData) {
             dispatch(updateMeal(newMeal));
         } else {
             dispatch(addMeal({ ...newMeal, id: uuidv4() }));
         }
-
+    
+        // ✅ Reset state only after full submission
         setNewMeal({
             id: "",
             title: "",
@@ -92,12 +108,16 @@ const Form: React.FC<FormProps> = ({ initialData, clearForm }) => {
             fat: 0,
             category: ""
         });
-
+    
+        setErrors({});
+        setTimeout(() => setIsSubmitted(false), 100); // ✅ Delay resetting `isSubmitted`
+    
         if (clearForm) clearForm();
     };
+    
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white shadow-md card px-8 pt-6 max-w-[500px]">
+        <form onSubmit={handleSubmit} noValidate className="bg-white shadow-md card px-8 pt-6 max-w-[500px]"> {/* disabled browser built-in validation for improved UX */}
             {formFields.map((field) => (
                 <InputField
                     key={field.id}
@@ -108,21 +128,14 @@ const Form: React.FC<FormProps> = ({ initialData, clearForm }) => {
                     value={newMeal[field.name as keyof Meal] || ""}
                     onChange={handleChange}
                     errorMessage={errors[field.name]}
+                    options={field.options} 
+                    required={field.required}
+                    isSubmitted={isSubmitted}
                 />
             ))}
 
-            <label htmlFor="category" className="block text-accent text-sm font-bold mb-2 text-left">Kategori:</label>
-            <select id="category" name="category" value={newMeal.category} onChange={handleChange} className="block w-full px-4 py-2 pr-10 text-accent bg-white border border-gray-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent appearance-none">
-                <option value="">Välj kategori</option>
-                <option value="Frukost">Frukost</option>
-                <option value="Lunch">Lunch</option>
-                <option value="Middag">Middag</option>
-                <option value="Mellanmål">Mellanmål</option>
-            </select>
-            {errors.category && <p className="text-red-500 text-xs italic mt-1">{errors.category}</p>}
-
             <Button variant="default" size="md" type="submit">
-                {initialData ? "Uppdatera måltid" : "Logga måltid"}
+                {initialData ? "Update meal" : "Save meal"}
             </Button>
         </form>
     );

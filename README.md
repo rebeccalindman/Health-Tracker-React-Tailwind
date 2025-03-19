@@ -59,6 +59,10 @@ Alla bidrag är välkomna! Om du vill bidra, följ dessa steg:
 2. Skapa en **ny gren** för din feature eller buggfix.
 3. Skicka in en **pull request** med en detaljerad beskrivning av dina ändringar.
 
+## Accessibility & User Experience
+1. Form: Disabled browser built-in validation for improved UX
+The built in browser-validation only highlights one input field at one time. For improved user experience, all empty and required input fields are hightlighted when the form is submitted.
+
 ## Licens
 
 Observera att ingen licens har specificerats i detta repository. Vänligen kontakta repository-ägaren för mer information om licensiering.
