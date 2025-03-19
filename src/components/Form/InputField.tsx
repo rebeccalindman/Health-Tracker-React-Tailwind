@@ -1,5 +1,4 @@
 export interface InputFieldProps {
-  id: string;
   name: string;
   type:
     | 'text'
@@ -27,8 +26,7 @@ export interface InputFieldProps {
 }
 
 const InputField: React.FC<InputFieldProps> = ({
-  id,
-  name = id, 
+  name,
   type = 'text',
   placeholder,
   value,
@@ -45,22 +43,22 @@ const InputField: React.FC<InputFieldProps> = ({
     console.warn(`No onChange function provided for ${name}.`);
   };
 
-  const stylingInput = `border-1 rounded w-full p-1 ${
+  const stylingInput = `border-1 rounded p-1 ${
     isSubmitted && (errorMessage || (required && (value === "" || value === undefined || value === null))) 
       ? 'border-red-500' 
       : 'border-accent'
-  }`;
+  } ${type=="date" ? 'w-fit' : 'w-full'}`;
 
   return (
-    <div className="input-field" id={id}>
-      <div className="flex items-start">
-        {label && <label className="text-left py-1" htmlFor={id}>{label}</label>}  
+    <div className="flex items-start flex-col justify-start" id={name}>
+      <div className="flex items-start justify-start">
+        {label && <label className="text-left py-1" htmlFor={name}>{label}</label>}  
         {required && <span className="text-red-500 ml-1">*</span>}
       </div>
 
       {type === 'textarea' ? (
         <textarea
-          id={id}
+          id={name}
           name={name}  
           placeholder={placeholder}
           value={value}
@@ -71,7 +69,7 @@ const InputField: React.FC<InputFieldProps> = ({
         />
       ) : type === 'select' && options ? (
         <select
-          id={id}
+          id={name}
           name={name}  
           value={value}
           required={required}
@@ -89,7 +87,7 @@ const InputField: React.FC<InputFieldProps> = ({
       ) : unit ? (
         <div className="">
           <input
-            id={id}
+            id={name}
             name={name}  
             type={type}
             placeholder={placeholder}
@@ -103,7 +101,7 @@ const InputField: React.FC<InputFieldProps> = ({
         </div>
       ) : (
         <input
-          id={id}
+          id={name}
           name={name}  
           type={type}
           placeholder={placeholder}

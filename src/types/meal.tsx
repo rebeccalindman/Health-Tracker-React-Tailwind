@@ -8,3 +8,4 @@ export interface Meal {
   fat: number | null;
   category: string;
 }
+

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {Button, buttonVariants} from './ui/button'
 import { Edit, Delete, X, Save } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeWeight, editWeight, displayWeight } from '../reducers/profileSlice';
+import { removeWeight, editWeight, displayWeight } from '../redux/slices/profileSlice';
 
 function WeightListItem({weightData}) {
   const dispatch = useDispatch();
