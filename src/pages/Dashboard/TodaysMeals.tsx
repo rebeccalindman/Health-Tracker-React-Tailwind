@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
-import MealListItem from '../MealList/MealListItem';
-import { Button } from '../ui/button';
+import MealListItem from '../../components/MealList/MealListItem.js';
+import { Button } from '../../components/ui/button.js';
 import { PlusCircle } from 'lucide-react';
-import { RootState } from '../../redux/store';
-import { Meal } from '../../types/meal'; // ✅ Import the correct type
+import { RootState } from '../../redux/store.js';
+import { Meal } from '../../types/meal.js'; // ✅ Import the correct type
 
 const TodaysMeals = () => {
   const meals = useSelector((state: RootState) => state.meals.mealLogs ?? []) as Meal[]; // ✅ Explicit type
@@ -15,7 +15,7 @@ const TodaysMeals = () => {
 
   return (
     <section className='card'>
-      <h3 className='text-lg font-bold'>Dagens måltider</h3>
+      <h2 className='text-lg font-bold'>Dagens måltider</h2>
       <p className='text-sm text-gray-500'>{todaysDate}</p>
       {todaysMeals.length === 0 && <p className='text-sm text-gray-500 card'>Inga måltider registrerade idag.</p>}
 

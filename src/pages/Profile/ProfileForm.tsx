@@ -12,12 +12,13 @@ import { calculateAge } from "../../utils/dateUtils"; // ✅ Import the utility 
 const ProfileForm = () => {
   const dispatch = useDispatch();
 
-  const { gender, weight, height, age, activityLevel, goal, birthDate } = useSelector(
+  const { gender, userName, weight, height, age, activityLevel, goal, birthDate } = useSelector(
     (state: RootState) => state.profile
   );
 
   const [formData, setFormData] = useState<ProfileFormData>({
     gender,
+    userName,
     weight,
     height,
     age,
@@ -45,8 +46,9 @@ const ProfileForm = () => {
   ];
 
   const profileFields: InputFieldProps[] = [
-    { label: "Gender", name: "gender", type: "select", required: true, options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" }], className: "col-span-1" },
-    { label: "Birth Date", name: "birthDate", type: "date", required: false, className: "col-span-1" }, // Optional
+    {label: "Name", name: "userName", type: "text", required: true, className: "md:col-span-2" },
+    { label: "Gender", name: "gender", type: "select", required: true, options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" ,},{ value: "other", label: "Other"}], className: "md:col-span-1" },
+    { label: "Birth Date", name: "birthDate", type: "date", required: false, className: "md:col-span-2" },
     {
       label: "Age",
       name: "age",
@@ -54,29 +56,26 @@ const ProfileForm = () => {
       required: formData.birthDate ? false : true,
       unit: "years",
       disabled: !!formData.birthDate,
-      className: "col-span-1", // ✅ Compact width
+      className: "md:col-span-1",
     },
-    { label: "Weight", name: "weight", type: "number", required: true, unit: "kg", className: "col-span-1" },
-    { label: "Height", name: "height", type: "number", required: true, unit: "cm", className: "col-span-1" },
-    { label: "Activity Level", name: "activityLevel", type: "select", required: true, options: activityLevelOptions, className: "col-span-2" },
-    { label: "Goal", name: "goal", type: "select", required: true, options: goalOptions, className: "col-span-2" },
+    { label: "Weight", name: "weight", type: "number", required: true, unit: "kg" },
+    { label: "Height", name: "height", type: "number", required: true, unit: "cm"  },
+    { label: "Activity Level", name: "activityLevel", type: "select", required: true, options: activityLevelOptions, className: "md:col-span-2" },
+    { label: "Goal", name: "goal", type: "select", required: true, options: goalOptions, className: "md:col-span-2" },
   ];
 
   const profileFieldGroups = [
     {
       label: "Personal Information",
-      fields: profileFields.filter((field) => ["gender", "birthDate", "age"].includes(field.name)),
-      className: "col-span-4",
+      fields: profileFields.filter((field) => ["userName","gender", "birthDate", "age"].includes(field.name)),
     },
     {
       label: "Health",
       fields: profileFields.filter((field) => ["weight", "height"].includes(field.name)),
-      className: "col-span-4",
     },
     {
       label: "Activity",
       fields: profileFields.filter((field) => ["activityLevel", "goal"].includes(field.name)),
-      className: "col-span-4",
     },
   ];
 
@@ -131,29 +130,31 @@ const ProfileForm = () => {
   };
 
   return (
-    <div className="w-full h-full p-4 bg-gray-100">
-      <div className="card grid grid-cols-3 flex-grow overflow-auto">
-        <div className="col-span-2">
+    <>
+      <div className="card">
+
+        {/* TDEE preview */}
+        <div className="text-center bg-accent/10 rounded p-2">
+        <p className="text-cente">Estimated daily kcal</p>
+          <p className="text-accent font-bold text-xl">{previewTDEE !== null ? `${Math.round(previewTDEE)} kcal` : "Enter values to calculate"}</p>
+        </div>
+
         <Form
           fields={profileFields}
           fieldGroups={profileFieldGroups}
           initialData={formData}
           onChange={handleChange}
           onSubmit={handleSave}
-          className="gridgrid-cols-4 gap-4"
+          className="grid grid-cols-1 md:grid-cols-4 gap-4"
         />
-        </div>
 
-        <div className="text-center font-bold bg-accent/20 rounded p-2 col-3">
-          {previewTDEE !== null
-            ? `Estimated Daily Intake: ${Math.round(previewTDEE)} kcal`
-            : "Enter values to calculate TDEE"}
-        </div>
+      
+
         {successMessage && (
           <div className="text-green-600 font-medium mt-2">{successMessage}</div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { Meal } from '../../types/meal';
+import { RootState } from '../../redux/store.js';
+import { Meal } from '../../types/meal.js';
 
 const KcalStatus = () => {
   // ✅ Select TDEE from Redux store (profile slice)

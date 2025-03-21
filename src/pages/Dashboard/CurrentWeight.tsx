@@ -1,10 +1,10 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store.js';
+import { Weight } from '../../types/weight.js';
 
-const CurrentWeight = () => {
-  // Select the latest weight entry
-  const weightEntries = useSelector((state) => state.profile.weight);
-  const latestWeight = weightEntries.length > 0 ? weightEntries[weightEntries.length - 1] : null;
+const CurrentWeight: React.FC = () => {
+  const weightEntries = useSelector((state: RootState) => state.weight.weightHistory);
+  const latestWeight: Weight | null = weightEntries.length > 0 ? weightEntries[weightEntries.length - 1] : null;
 
   return (
     <section className='card group flex items-center'>
@@ -22,3 +22,4 @@ const CurrentWeight = () => {
 };
 
 export default CurrentWeight;
+

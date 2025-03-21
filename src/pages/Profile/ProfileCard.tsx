@@ -1,35 +1,68 @@
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import { RootState } from "../../redux/store"; // ✅ Import RootState
-
-import { Button } from '../../components/ui/button';
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { Profile } from "../../types/profile";
+import { capitalizeFirstLetter } from "../../utils/stringUtils";
 
 const ProfileCard = () => {
-  const { gender, weight, height, age, activityLevel, goal, tdee, birthDate } = useSelector((state: RootState) => state.profile);
+  const profile = useSelector((state: RootState) => state.profile) as Profile;
 
-  /* const { tdee } = useSelector((state: RootState) => state.profile); */
-  console.log("Redux tdee in ProfileCard:", tdee); // 🔍 Add this
+  const profileLabels: Record<keyof Profile, string> = {
+    gender: "Gender",
+    userName: "Name",
+    age: "Age",
+    weight: "Weight",
+    height: "Height",
+    activityLevel: "Activity Level",
+    goal: "Goal",
+    birthDate: "Birth Date",
+    tdee: "TDEE",
+  };
 
-
-  const profileInfo = [
-    { label: 'Gender', value: gender },
-    { label: 'Weight', value: `${weight} kg` },
-    { label: 'Height', value: `${height} cm` },
-    { label: 'Age', value: `${age} years` },
-    { label: 'Activity Level', value: activityLevel },
-    { label: 'Goal', value: goal },
-    { label: 'Daily Intake', value: tdee ? `${Math.round(tdee)} kcal` : 'Calculating...' },
+  const sections = [
+    {
+      title: "Personal Information",
+      keys: ["gender", "age"],
+    },
+    {
+      title: "Health",
+      keys: ["weight", "height"],
+    },
+    {
+      title: "Activity",
+      keys: ["activityLevel", "goal"],
+    },
   ];
 
   return (
-      <div className="card w-full">
-        <h2 className="text-2xl font-bold text-green-600 mb-4">Profile Information</h2>
+    <>
+      <div className="card">
+        <h2>{profile.userName}'s Profile</h2>
+        {/* TDEE Section */}
+        <div className="text-center bg-accent/10 rounded p-2">
+          <p className="text-center">Estimated daily kcal</p>
+          <p className="text-accent font-bold text-xl">{profile.tdee || "N/A"} kcal</p>
+        </div>
 
-        {profileInfo.map(({ label, value }) => (
-          <p key={label} className="mb-2 text-left text-lg"><strong>{label}:</strong> {value}</p>
+        {/* Profile Sections */}
+        {sections.map((section) => (
+          <div key={section.title} className="rounded">
+            <h3 className="text-lg font-semibold">{section.title}</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-2">
+              {section.keys.map((key) => (
+                <div key={key} className="flex flex-col text-center md:text-left">
+                  <span className="py-1 text-lg md:text-md">{profileLabels[key as keyof Profile]}</span>
+                  <span className="text-lg font-bold">
+                    {typeof profile[key as keyof Profile] === "string"
+                      ? capitalizeFirstLetter(profile[key as keyof Profile] as string)
+                      : profile[key as keyof Profile] || "N/A"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         ))}
-
       </div>
+    </>
   );
 };
 

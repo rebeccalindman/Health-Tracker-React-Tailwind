@@ -1,6 +1,7 @@
 // Original Redux profile state
 export type Profile = {
-  gender: "male" | "female";
+  gender: "male" | "female" | "other";
+  userName: string;
   weight: number;
   height: number;
   age: number | null;

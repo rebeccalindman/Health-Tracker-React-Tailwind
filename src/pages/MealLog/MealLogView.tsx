@@ -10,10 +10,10 @@ const MealLog = () => {
   const [editing, setEditing] = useState<Meal | null>(null);
 
   return (
-    <main className="container mx-auto p-4 flex flex-col items-center gap-4 max-w-[500px]">
+    <>
       <MealForm initialData={editing} clearForm={() => setEditing(null)} />
       <MealList meals={mealLogs} onEdit={setEditing} />
-    </main>
+    </>
   );
 };
 

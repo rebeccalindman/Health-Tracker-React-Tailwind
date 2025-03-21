@@ -38,7 +38,7 @@ const AddWeight = ({ onSubmit }: { onSubmit: () => void }) => {
 
   return (
     <div className="card">
-      <h3 className="text-xl font-bold text-green-600">Registrera din nya vikt</h3>
+      <h2>Registrera din nya vikt</h2>
 
       {/* ✅ Weight Input */}
       <input
@@ -50,7 +50,7 @@ const AddWeight = ({ onSubmit }: { onSubmit: () => void }) => {
       />
 
       {/* ✅ Action Buttons */}
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2">
         <Button onClick={handleAddWeight} className="w-full">
           Registrera vikt
         </Button>

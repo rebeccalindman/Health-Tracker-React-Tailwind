@@ -12,7 +12,7 @@ type FormProps = {
     className?: string;
     clearForm?: () => void;
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void; // ✅ New prop
-    onSubmit?: () => void; // ✅ New prop
+    onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>; // ✅ New prop
   };
   
   const Form: React.FC<FormProps> = ({ initialData, clearForm, fields, fieldGroups = [], onChange, onSubmit }) => {
@@ -21,7 +21,7 @@ type FormProps = {
   
     return (
       <form 
-        className="grid grid-cols-4 gap-4 w-full"
+      className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full" // ✅ Ensures 1 column on mobile, 4 on larger screens
         onSubmit={(e) => { 
           e.preventDefault(); 
           setIsSubmitted(true); 
@@ -36,7 +36,7 @@ type FormProps = {
             <InputField
               key={field.name}
               {...field}
-              className={field.className || "col-span-1"} // ✅ Default to single column
+              className={field.className || "col-span-full"} // ✅ Default to single column
               value={initialData?.[field.name] || ""}
               onChange={onChange}
               errorMessage={errors[field.name]}
@@ -48,10 +48,10 @@ type FormProps = {
         {fieldGroups.map(({ label, fields, className }) => (
           <div 
             key={label} 
-            className={`bg-accent/10 p-2 rounded ${className || "col-span-4"}`} // ✅ Full width by default
+            className={`rounded ${className || "col-span-full"}`} // ✅ Full width by default
           >
-            {label && <label className="block font-semibold mb-1">{label}</label>}
-            <div className="grid grid-cols-4 gap-4"> {/* ✅ Keeps fields inside groups aligned */}
+            {label && <h3 className="block font-semibold mb-1">{label}</h3>}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-8 md:px-4 py-2"> {/* ✅ Keeps fields inside groups aligned */}
               {fields.map((field) => (
                 <InputField
                   key={field.name}
@@ -67,7 +67,7 @@ type FormProps = {
           </div>
         ))}
 
-        <Button type="submit">
+        <Button className="col-span-4" type="submit" size="lg">
           {initialData ? "Update" : "Save"}
         </Button>
       </form>

@@ -122,29 +122,32 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  html {
+    @apply scroll-smooth w-screen min-h-screen;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground w-full min-h-full;
+  }
+  #root {
+    @apply w-screen min-h-screen flex flex-col justify-start items-center;
+  }
+  * {
+    @apply border-border outline-ring/50
   }
   main {
-    @apply p-4 min-h-screen w-full min-w-[400px] max-w-[1200px] mx-auto;
+    @apply flex flex-col justify-start items-center gap-4 p-4 h-full w-full max-w-[600px];
   }
   .card {
-    @apply bg-card flex flex-col gap-2 text-card-foreground w-fit rounded-md h-fit drop-shadow-[1px_1px_4px_rgba(0,0,0,0.1)];
+    @apply bg-card flex flex-col gap-4 text-card-foreground w-full rounded-md h-fit drop-shadow-[1px_1px_4px_rgba(0,0,0,0.1)];
+  }
+  h2 {
+    @apply text-2xl font-semibold text-primary w-full md:text-left mb-2;
+  }
+  h3 {
+    @apply text-xl md:text-xl font-semibold w-full md:text-left mb-2 bg-primary/10 px-4 py-2 rounded-md;
   }
 }
 
-@layer utilities { 
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-}
 
 @layer components {
   .chart {
@@ -153,4 +156,5 @@
   .chart > div {
     @apply flex flex-col justify-center items-center gap-2;
   }
+  
 }

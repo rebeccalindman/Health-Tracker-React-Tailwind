@@ -1,4 +1,4 @@
-import SmallProfileCard from './SmallProfileCard'
+import SmallProfileCard from './SmallProfileCard.js'
 import React from 'react'
 
 const WelcomeProfile = () => {

@@ -32,6 +32,8 @@ export const calculateTDEE = (
       bmr = 88.36 + 13.4 * weight + 4.8 * height - 5.7 * age;
     } else if (gender === "female") {
       bmr = 447.6 + 9.2 * weight + 3.1 * height - 4.3 * age;
+    } else if (gender === "other") {
+      bmr = 1500;
     } else {
       return null;
     }

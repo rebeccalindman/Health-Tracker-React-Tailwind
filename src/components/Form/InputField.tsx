@@ -53,14 +53,14 @@ const InputField: React.FC<InputFieldProps> = ({
   const validationClasses =
     isSubmitted && (errorMessage || (required && !value)) ? "border-red-500" : "border-accent";
   const disabledClasses = disabled ? "bg-gray-200 text-gray-500 cursor-not-allowed opacity-60" : "";
-  const inputClasses = `${inputBaseClasses} ${validationClasses} ${disabledClasses}`;
+  const inputClasses = `${inputBaseClasses} ${validationClasses} ${disabledClasses} ${unit ? "pr-8" : ""}`;
 
   return (
-    <div className={`flex flex-col w-full ${className}`}>
+    <div className={`flex flex-col justify-self-center w-full ${className || "col-span-1"}`}>
       {/* Label */}
       {label && (
         <div className="flex items-center">
-          <label htmlFor={name} className="text-left py-1">
+          <label htmlFor={name} className="text-left py-1 font-bold text-lg md:text-md">
             {label}
           </label>
           {required && <span className="text-red-500 ml-1">*</span>}
@@ -99,7 +99,7 @@ const InputField: React.FC<InputFieldProps> = ({
           ))}
         </select>
       ) : (
-        <div className="flex items-center">
+        <div className="relative w-full">
           <input
             id={name}
             name={name}
@@ -112,7 +112,11 @@ const InputField: React.FC<InputFieldProps> = ({
             aria-invalid={!!errorMessage}
             disabled={disabled}
           />
-          {unit && <span className="ml-1 text-accent">{unit}</span>}
+          {unit && (
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">
+              {unit}
+            </span>
+          )}
         </div>
       )}
 

@@ -1,14 +1,18 @@
-const Logo = ({ onClick }) => {
+type LogoProps = {
+  onClick: () => void;
+};
+
+const Logo: React.FC<LogoProps> = ({ onClick }) => {
   return (
-    <figure className="max-h-[70px] max-w-[70px] md:max-h-[100px] md:max-w-[100px] flex items-center justify-cente rounded-full overflow-clip" onClick={onClick}>
-      <img 
-        className="h-full w-full object-contain" 
-        src="src/assets/Icon.webp" 
-        alt="Healthtracker logo" 
+    <figure className="max-h-[50px] max-w-[50px] md:flex md:max-h-[70px] md:max-w-[70px] items-center justify-center rounded-full overflow-clip" onClick={onClick}>
+      <img
+        className="h-full w-full object-contain"
+        src="src/assets/Icon.webp"
+        alt="Healthtracker logo"
       />
     </figure>
   );
-}
+};
 
 export default Logo;
 

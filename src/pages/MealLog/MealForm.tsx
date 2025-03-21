@@ -13,14 +13,14 @@ type MealFormProps = {
 
 const mealFields: InputFieldProps[] = [
   { label: "Meal", name: "title", type: "text", required: true, className: "col-span-4 w-full" }, // ✅ Full width
-  { label: "Category", name: "category", type: "select", required: true, className: "col-span-2", options: [
+  { label: "Category", name: "category", type: "select", required: true, className: "col-span-4 md:col-span-2", options: [
       { value: "Breakfast", label: "Breakfast" },
       { value: "Lunch", label: "Lunch" },
       { value: "Dinner", label: "Dinner" },
       { value: "Snack", label: "Snack" },
   ]},
-  { label: "Date", name: "date", type: "date", required: true, className: "col-span-2" },
-  { label: "Energy", name: "energy", type: "number", required: true, className: "col-span-1" },
+  { label: "Date", name: "date", type: "date", required: true, className: "col-span-4 md:col-span-2" },
+  { label: "Energy", name: "energy", type: "number", required: true, className: "col-span-1", unit: "kcal" },
   { label: "Protein", name: "protein", type: "number", unit: "g", required: false, className: "col-span-1" },
   { label: "Carbs", name: "carbohydrate", type: "number", unit: "g", required: false, className: "col-span-1" },
   { label: "Fat", name: "fat", type: "number", unit: "g", required: false, className: "col-span-1" },
@@ -62,17 +62,20 @@ const MealForm: React.FC<MealFormProps> = ({ initialData, clearForm }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: ["energy", "protein", "carbohydrate", "fat"].includes(name) ? parseFloat(value) || "" : value,
+      [name]: ["energy", "protein", "carbohydrate", "fat"].includes(name) ? parseFloat(value) || 0 : value || "",
     }));
   };
 
-  const handleSubmit = () => {
-    if (initialData) {
-      dispatch(updateMeal(formData));
-    } else {
-      dispatch(addMeal({ ...formData, id: uuidv4() }));
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (formData.title && formData.energy && formData.date && formData.category) {
+      if (initialData) {
+        dispatch(updateMeal(formData));
+      } else {
+        dispatch(addMeal({ ...formData, id: uuidv4() }));
+      }
+      if (clearForm) clearForm();
     }
-    if (clearForm) clearForm();
   };
 
   return (
@@ -89,3 +92,4 @@ const MealForm: React.FC<MealFormProps> = ({ initialData, clearForm }) => {
 };
 
 export default MealForm;
+

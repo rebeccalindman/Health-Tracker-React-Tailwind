@@ -20,8 +20,7 @@ const ProfileView = () => {
   };
 
   return (
-    <main className="flex flex-col justify-start">
-      <div className="flex flex-col items-center gap-4 h-full">
+    <>
         {isEditing ? <ProfileForm /> : <ProfileCard />}
         <Button 
           onClick={handleClick}
@@ -29,8 +28,7 @@ const ProfileView = () => {
         >
           {isEditing ? "Visa Profil" : "Ändra Profil"}
         </Button>
-      </div>
-    </main>
+    </>
   );
 };
 
