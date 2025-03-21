@@ -129,7 +129,7 @@
     @apply bg-background text-foreground;
   }
   main {
-    @apply p-4 min-h-screen;
+    @apply p-4 min-h-screen w-full min-w-[400px] max-w-[1200px] mx-auto;
   }
   .card {
     @apply bg-card flex flex-col gap-2 text-card-foreground w-fit rounded-md h-fit drop-shadow-[1px_1px_4px_rgba(0,0,0,0.1)];

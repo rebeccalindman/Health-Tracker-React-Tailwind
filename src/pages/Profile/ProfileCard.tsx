@@ -22,7 +22,7 @@ const ProfileCard = () => {
   ];
 
   return (
-      <div className="card">
+      <div className="card w-full">
         <h2 className="text-2xl font-bold text-green-600 mb-4">Profile Information</h2>
 
         {profileInfo.map(({ label, value }) => (

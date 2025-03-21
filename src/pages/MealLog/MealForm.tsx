@@ -19,7 +19,7 @@ const mealFields: InputFieldProps[] = [
       { value: "Dinner", label: "Dinner" },
       { value: "Snack", label: "Snack" },
   ]},
-  { label: "Date", name: "date", type: "date", required: true},
+  { label: "Date", name: "date", type: "date", required: true, className: "col-span-2" },
   { label: "Energy", name: "energy", type: "number", required: true, className: "col-span-1" },
   { label: "Protein", name: "protein", type: "number", unit: "g", required: false, className: "col-span-1" },
   { label: "Carbs", name: "carbohydrate", type: "number", unit: "g", required: false, className: "col-span-1" },

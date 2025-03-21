@@ -21,7 +21,7 @@ const ProfileView = () => {
 
   return (
     <main className="flex flex-col justify-start">
-      <div className="flex flex-col items-center gap-4 h-fit">
+      <div className="flex flex-col items-center gap-4 h-full">
         {isEditing ? <ProfileForm /> : <ProfileCard />}
         <Button 
           onClick={handleClick}
