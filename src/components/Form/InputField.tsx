@@ -1,19 +1,19 @@
 export interface InputFieldProps {
   name: string;
   type:
-    | 'text'
-    | 'email'
-    | 'password'
-    | 'tel'
-    | 'url'
-    | 'textarea'
-    | 'select'
-    | 'number'
-    | 'date'
-    | 'time'
-    | 'datetime-local'
-    | 'week'
-    | 'month';
+    | "text"
+    | "email"
+    | "password"
+    | "tel"
+    | "url"
+    | "textarea"
+    | "select"
+    | "number"
+    | "date"
+    | "time"
+    | "datetime-local"
+    | "week"
+    | "month";
   placeholder?: string;
   value?: string | number;
   label?: string;
@@ -22,74 +22,79 @@ export interface InputFieldProps {
   errorMessage?: string;
   unit?: string;
   options?: { value: string | number; label: string }[];
-  isSubmitted?: boolean
-  disabled?: boolean
-  className?: string
+  isSubmitted?: boolean;
+  disabled?: boolean;
+  className?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
   name,
-  type = 'text',
-  value,
+  type = "text",
+  value = "",
   label,
-  placeholder = label,
-  onChange, // ✅ No need to pass explicitly every time
+  placeholder,
+  onChange,
   required,
   errorMessage,
   unit,
   options,
   isSubmitted,
   disabled,
-  className = "", // ✅ Default to full width if not specified
+  className = "",
 }) => {
-  
-  const defaultOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    console.warn(`No onChange function provided for ${name}.`);
-  };
+  // Default onChange if none provided
+  const handleChange =
+    onChange ||
+    ((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+      console.warn(`No onChange function provided for ${name}.`));
 
-  // ✅ Ensure Tailwind classes change dynamically when disabled
-  const stylingInput = `border-1 rounded p-1 transition-all duration-200
-    ${isSubmitted && (errorMessage || (required && (value === "" || value === undefined || value === null))) 
-      ? 'border-red-500' 
-      : 'border-accent'}
-    ${className} 
-    ${disabled ? 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60' : ''}`; // ✅ Apply styles correctly
-  
+  // Base input styling
+  const inputBaseClasses = `border rounded p-2 transition-all duration-200 w-full`;
+  const validationClasses =
+    isSubmitted && (errorMessage || (required && !value)) ? "border-red-500" : "border-accent";
+  const disabledClasses = disabled ? "bg-gray-200 text-gray-500 cursor-not-allowed opacity-60" : "";
+  const inputClasses = `${inputBaseClasses} ${validationClasses} ${disabledClasses}`;
 
   return (
-    <div className="flex items-start flex-col w-fit" id={name}>
-      <div className="flex items-start w-fit">
-        {label && <label className="text-left py-1 w-fit" htmlFor={name}>{label}</label>}  
-        {required && <span className="text-red-500 ml-1">*</span>}
-      </div>
+    <div className={`flex flex-col w-full ${className}`}>
+      {/* Label */}
+      {label && (
+        <div className="flex items-center">
+          <label htmlFor={name} className="text-left py-1">
+            {label}
+          </label>
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </div>
+      )}
 
-      {type === 'textarea' ? (
+      {/* Input Field Types */}
+      {type === "textarea" ? (
         <textarea
           id={name}
-          name={name}  
+          name={name}
           placeholder={placeholder}
           value={value}
-          onChange={onChange} 
-          className={stylingInput}
+          onChange={handleChange}
+          className={inputClasses}
           aria-invalid={!!errorMessage}
-          required = {required}
+          required={required}
           disabled={disabled}
         />
-      ) : type === 'select' && options ? (
+      ) : type === "select" && options ? (
         <select
           id={name}
-          name={name}  
+          name={name}
           value={value}
           required={required}
-          onChange={onChange} 
-          className={stylingInput + ' ' + ` py-2`}
+          onChange={handleChange}
+          className={`${inputClasses} py-2`}
           aria-invalid={!!errorMessage}
           disabled={disabled}
         >
           <option value="">Select an option</option>
-          {options.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.label}
+          {options.map(({ value, label }, index) => (
+            <option key={index} value={value}>
+              {label}
             </option>
           ))}
         </select>
@@ -97,24 +102,24 @@ const InputField: React.FC<InputFieldProps> = ({
         <div className="flex items-center">
           <input
             id={name}
-            name={name}  
+            name={name}
             type={type}
             placeholder={placeholder}
             required={required}
             value={value}
-            onChange={onChange || defaultOnChange} // ✅ Apply default if missing
-            className={stylingInput}
+            onChange={handleChange}
+            className={inputClasses}
             aria-invalid={!!errorMessage}
             disabled={disabled}
           />
-          {unit && <p className="text-accent inline-block ml-1 w-fit">{unit}</p>}
+          {unit && <span className="ml-1 text-accent">{unit}</span>}
         </div>
       )}
 
-      {(isSubmitted && errorMessage) && <p className="text-red-700">{errorMessage}</p>}
+      {/* Error Message */}
+      {isSubmitted && errorMessage && <p className="text-red-700">{errorMessage}</p>}
     </div>
   );
 };
 
 export default InputField;
-

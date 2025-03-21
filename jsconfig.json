@@ -1,6 +1,8 @@
 {
     "compilerOptions": {
       "baseUrl": ".",
+      "moduleResolution": "nodenext",
+      "module": "NodeNext",
       "paths": {
         "@/*": ["./src/*"]
       }

@@ -1,4 +1,6 @@
-import type { Config } from "tailwindcss";
+import { Config } from "tailwindcss";
+import tailwindAnimate from "tailwindcss-animate";
+
 const config: Config = {
   content: [
     "./index.html",
@@ -10,7 +12,7 @@ const config: Config = {
         primary: "var(--primary)", 
         "primary-foreground": "var(--primary-foreground)", 
         secondary: "var(--secondary)", 
-        "secondary-foreground": "rgb(var(--secondary-foreground) / <alpha-value>)", // ✅ Ensure Tailwind resolves this properly
+        "secondary-foreground": "rgb(var(--secondary-foreground) / <alpha-value>)",
         destructive: "var(--destructive)", 
         accent: "var(--accent)", 
         ring: "var(--ring)", 
@@ -19,5 +21,7 @@ const config: Config = {
     },
   },
   darkMode: "class",
-  plugins: [],
+  plugins: [tailwindAnimate], // ✅ Ensure the plugin is registered
 };
+
+export default config;

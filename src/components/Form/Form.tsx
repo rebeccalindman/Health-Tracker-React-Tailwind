@@ -20,15 +20,23 @@ type FormProps = {
     const [isSubmitted, setIsSubmitted] = useState(false);
   
     return (
-      <form className="flex flex-col gap-4 w-full " onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); onSubmit?.(); }} noValidate>
-        {/* <h2 className="font-bold">New Form</h2> */}
-  
+      <form 
+        className="grid grid-cols-4 gap-4 w-full"
+        onSubmit={(e) => { 
+          e.preventDefault(); 
+          setIsSubmitted(true); 
+          onSubmit?.(); 
+        }} 
+        noValidate
+      >
+        {/* Individual fields that are not inside a group */}
         {fields
-          .filter((field) => !fieldGroups.some((group) => group.fields.some((f) => f.name === field.name))) // ✅ Now correctly checking fields by name
+          .filter((field) => !fieldGroups.some((group) => group.fields.some((f) => f.name === field.name)))
           .map((field) => (
             <InputField
               key={field.name}
               {...field}
+              className={field.className || "col-span-1"} // ✅ Default to single column
               value={initialData?.[field.name] || ""}
               onChange={onChange}
               errorMessage={errors[field.name]}
@@ -36,25 +44,34 @@ type FormProps = {
             />
         ))}
 
-  
+         {/* Render field groups */}
         {fieldGroups.map(({ label, fields, className }) => (
-          <FieldGroup
-            key={label}
-            label={label}
-            fields={fields} // ✅ Now correctly passing full InputFieldProps objects
-            values={initialData || {}}
-            errors={errors}
-            onChange={onChange}
-            isSubmitted={isSubmitted}
-            className={className}
-          />
+          <div 
+            key={label} 
+            className={`bg-accent/10 p-2 rounded ${className || "col-span-4"}`} // ✅ Full width by default
+          >
+            {label && <label className="block font-semibold mb-1">{label}</label>}
+            <div className="grid grid-cols-4 gap-4"> {/* ✅ Keeps fields inside groups aligned */}
+              {fields.map((field) => (
+                <InputField
+                  key={field.name}
+                  {...field}
+                  className={field.className || "col-span-1"} // ✅ Default to compact width
+                  value={initialData?.[field.name] || ""}
+                  onChange={onChange}
+                  errorMessage={errors[field.name]}
+                  isSubmitted={isSubmitted}
+                />
+              ))}
+            </div>
+          </div>
         ))}
-
 
         <Button type="submit">
           {initialData ? "Update" : "Save"}
         </Button>
       </form>
+
     );
   };
   

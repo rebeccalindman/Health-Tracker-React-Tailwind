@@ -12,23 +12,31 @@ type MealFormProps = {
 };
 
 const mealFields: InputFieldProps[] = [
-  { label: "Meal", name: "title", type: "text", required: true },
-  { label: "Category", name: "category", type: "select", required: true, options: [
+  { label: "Meal", name: "title", type: "text", required: true, className: "col-span-4 w-full" }, // ✅ Full width
+  { label: "Category", name: "category", type: "select", required: true, className: "col-span-2", options: [
       { value: "Breakfast", label: "Breakfast" },
       { value: "Lunch", label: "Lunch" },
       { value: "Dinner", label: "Dinner" },
       { value: "Snack", label: "Snack" },
   ]},
-  { label: "Energy", name: "energy", type: "number", required: true },
-  { label: "Date", name: "date", type: "date", required: true },
-  { label: "Protein", name: "protein", type: "number", unit: "g", required: false },
-  { label: "Carbs", name: "carbohydrate", type: "number", unit: "g", required: false },
-  { label: "Fat", name: "fat", type: "number", unit: "g", required: false },
+  { label: "Date", name: "date", type: "date", required: true},
+  { label: "Energy", name: "energy", type: "number", required: true, className: "col-span-1" },
+  { label: "Protein", name: "protein", type: "number", unit: "g", required: false, className: "col-span-1" },
+  { label: "Carbs", name: "carbohydrate", type: "number", unit: "g", required: false, className: "col-span-1" },
+  { label: "Fat", name: "fat", type: "number", unit: "g", required: false, className: "col-span-1" },
 ];
 
 const mealFieldGroups = [
-  { label: "", fieldNames: ["category", "date"] },
-  { label: "Macronutrients", fieldNames: ["energy", "protein", "carbohydrate", "fat"] },
+  /* { 
+    label: "Meal Info", 
+    fields: mealFields.filter((field) => ["category", "date"].includes(field.name)),
+    className: "col-span-4" // ✅ Half-width
+  }, */
+  { 
+    label: "Macronutrients", 
+    fields: mealFields.filter((field) => ["energy", "protein", "carbohydrate", "fat"].includes(field.name)),
+    className: "col-span-4" // ✅ Full-width to fit 4 inputs in 1 row
+  },
 ];
 
 const MealForm: React.FC<MealFormProps> = ({ initialData, clearForm }) => {
