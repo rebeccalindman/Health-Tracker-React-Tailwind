@@ -7,6 +7,9 @@ import { Button } from '../../components/ui/button';
 const ProfileCard = () => {
   const { gender, weight, height, age, activityLevel, goal, tdee, birthDate } = useSelector((state: RootState) => state.profile);
 
+  /* const { tdee } = useSelector((state: RootState) => state.profile); */
+  console.log("Redux tdee in ProfileCard:", tdee); // 🔍 Add this
+
 
   const profileInfo = [
     { label: 'Gender', value: gender },

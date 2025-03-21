@@ -38,18 +38,21 @@ const InputField: React.FC<InputFieldProps> = ({
   unit,
   options,
   isSubmitted,
-  disabled
+  disabled,
 }) => {
   
   const defaultOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     console.warn(`No onChange function provided for ${name}.`);
   };
 
-  const stylingInput = `border-1 rounded p-1 ${
-    isSubmitted && (errorMessage || (required && (value === "" || value === undefined || value === null))) 
+  // ✅ Ensure Tailwind classes change dynamically when disabled
+  const stylingInput = `border-1 rounded p-1 transition-all duration-200
+    ${isSubmitted && (errorMessage || (required && (value === "" || value === undefined || value === null))) 
       ? 'border-red-500' 
-      : 'border-accent'
-  } ${type=="date" ? 'w-fit' : 'w-full'}`;
+      : 'border-accent'}
+    ${type === "date" ? 'w-fit' : 'w-full'}
+    ${disabled ? 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60' : ''}`; // ✅ Apply styles correctly
+  
 
   return (
     <div className="flex items-start flex-col justify-start" id={name}>

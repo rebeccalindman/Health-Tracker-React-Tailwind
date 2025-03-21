@@ -3,8 +3,8 @@ import InputField, { InputFieldProps } from "./InputField";
 export interface FieldGroupProps {
   label?: string;
   fields: InputFieldProps[]; // List of fields to render
-  values: { [key: string]: any }; // Current form values
-  errors: { [key: string]: string }; // Error messages
+  values: Record<string, string | number | undefined>; // ✅ More precise typing for form values
+  errors: Record<string, string | undefined>; // ✅ More precise typing for error messages
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   isSubmitted: boolean;
   background?: string;
@@ -29,6 +29,7 @@ const FieldGroup: React.FC<FieldGroupProps> = ({ label, fields, values, errors, 
             options={field.options}
             required={field.required}
             isSubmitted={isSubmitted}
+            disabled={field.disabled}
           />
         ))}
       </div>
