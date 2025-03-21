@@ -7,12 +7,12 @@ import FieldGroup from "./FieldGroup";
 
 type FormProps = {
     initialData?: { [key: string]: any };
-    clearForm?: () => void;
     fields: InputFieldProps[];
-    fieldGroups?: { label: string; fields: InputFieldProps[] }[];
+    fieldGroups?: { label: string; fields: InputFieldProps[], className?: string }[];
+    className?: string;
+    clearForm?: () => void;
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void; // ✅ New prop
     onSubmit?: () => void; // ✅ New prop
-    className?: string;
   };
   
   const Form: React.FC<FormProps> = ({ initialData, clearForm, fields, fieldGroups = [], onChange, onSubmit }) => {
@@ -37,7 +37,7 @@ type FormProps = {
         ))}
 
   
-        {fieldGroups.map(({ label, fields }) => (
+        {fieldGroups.map(({ label, fields, className }) => (
           <FieldGroup
             key={label}
             label={label}
@@ -46,6 +46,7 @@ type FormProps = {
             errors={errors}
             onChange={onChange}
             isSubmitted={isSubmitted}
+            className={className}
           />
         ))}
 

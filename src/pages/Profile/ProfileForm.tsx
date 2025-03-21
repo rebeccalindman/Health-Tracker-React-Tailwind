@@ -61,22 +61,24 @@ const ProfileForm = () => {
       type: "number", 
       required: formData.birthDate ? false : true, 
       unit: "years", 
-      disabled: !!formData.birthDate // Disable if birthDate is set
+      disabled: !!formData.birthDate, // Disable if birthDate is set
+      className: "w-16" // ✅ Force compact width
     },
     { label: "Activity Level", name: "activityLevel", type: "select", required: true, options: activityLevelOptions },
     { label: "Goal", name: "goal", type: "select", required: true, options: goalOptions },
-    { label: "Birth Date", name: "birthDate", type: "date", required: false }, // Optional
+    { label: "Birth Date", name: "birthDate", type: "date", required: false, }, // Optional
   ];
 
   // Array of objects passed to form which passes it to FieldGroup component
   const profileFieldGroups = [
     {
       label: "Personal Information",
-      fields: profileFields.filter((field) => ["gender", "birthDate"].includes(field.name)),
+      fields: profileFields.filter((field) => ["gender", "birthDate", "age"].includes(field.name)),
+      className: "bg-white",
     },
     {
       label: "Health",
-      fields: profileFields.filter((field) => ["weight", "height", "age"].includes(field.name)),
+      fields: profileFields.filter((field) => ["weight", "height"].includes(field.name)),
     },
     {
       label: "Activity",

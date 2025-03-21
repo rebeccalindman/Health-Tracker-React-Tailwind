@@ -24,14 +24,15 @@ export interface InputFieldProps {
   options?: { value: string | number; label: string }[];
   isSubmitted?: boolean
   disabled?: boolean
+  className?: string
 }
 
 const InputField: React.FC<InputFieldProps> = ({
   name,
   type = 'text',
-  placeholder,
   value,
   label,
+  placeholder = label,
   onChange, // ✅ No need to pass explicitly every time
   required,
   errorMessage,
@@ -39,6 +40,7 @@ const InputField: React.FC<InputFieldProps> = ({
   options,
   isSubmitted,
   disabled,
+  className = "", // ✅ Default to full width if not specified
 }) => {
   
   const defaultOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -50,14 +52,14 @@ const InputField: React.FC<InputFieldProps> = ({
     ${isSubmitted && (errorMessage || (required && (value === "" || value === undefined || value === null))) 
       ? 'border-red-500' 
       : 'border-accent'}
-    ${type === "date" ? 'w-fit' : 'w-full'}
+    ${className} 
     ${disabled ? 'bg-gray-200 text-gray-500 cursor-not-allowed opacity-60' : ''}`; // ✅ Apply styles correctly
   
 
   return (
-    <div className="flex items-start flex-col justify-start" id={name}>
-      <div className="flex items-start justify-start">
-        {label && <label className="text-left py-1" htmlFor={name}>{label}</label>}  
+    <div className="flex items-start flex-col w-fit" id={name}>
+      <div className="flex items-start w-fit">
+        {label && <label className="text-left py-1 w-fit" htmlFor={name}>{label}</label>}  
         {required && <span className="text-red-500 ml-1">*</span>}
       </div>
 
@@ -91,8 +93,8 @@ const InputField: React.FC<InputFieldProps> = ({
             </option>
           ))}
         </select>
-      ) : unit ? (
-        <div className="">
+      ) : (
+        <div className="flex items-center">
           <input
             id={name}
             name={name}  
@@ -100,26 +102,13 @@ const InputField: React.FC<InputFieldProps> = ({
             placeholder={placeholder}
             required={required}
             value={value}
-            onChange={onChange} 
+            onChange={onChange || defaultOnChange} // ✅ Apply default if missing
             className={stylingInput}
             aria-invalid={!!errorMessage}
             disabled={disabled}
           />
-          <p className="text-accent">{unit}</p>
+          {unit && <p className="text-accent inline-block ml-1 w-fit">{unit}</p>}
         </div>
-      ) : (
-        <input
-          id={name}
-          name={name}  
-          type={type}
-          placeholder={placeholder}
-          required={required}
-          value={value}
-          onChange={onChange || defaultOnChange} // ✅ Apply default if missing
-          className={stylingInput}
-          aria-invalid={!!errorMessage}
-          disabled={disabled}
-        />
       )}
 
       {(isSubmitted && errorMessage) && <p className="text-red-700">{errorMessage}</p>}

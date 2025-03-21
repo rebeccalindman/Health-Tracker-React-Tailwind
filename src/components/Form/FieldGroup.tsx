@@ -7,29 +7,30 @@ export interface FieldGroupProps {
   errors: Record<string, string | undefined>; // ✅ More precise typing for error messages
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   isSubmitted: boolean;
-  background?: string;
+  className?: string;
 }
 
-const FieldGroup: React.FC<FieldGroupProps> = ({ label, fields, values, errors, onChange, isSubmitted, background }) => {
-    const wrapperStyle = `flex text-left flex-wrap gap-4 p-2 rounded ${background ? `bg-${background}` : 'bg-accent/10'}`;
+const FieldGroup: React.FC<FieldGroupProps> = ({ label, fields, values, errors, onChange, isSubmitted, className }) => {
 
   return (
-    <div className={wrapperStyle}>
+    <div className={`flex text-left flex-wrap gap-4 p-2 rounded ${className || 'bg-accent/10'}`}>
       {label && <label className="w-full font-semibold">{label}</label>}
       <div className="flex w-full gap-4">
-        {fields.map((field) => (
+        {fields.map(({ name, label, type, options, required, disabled, unit, className }) => (
           <InputField
-            key={field.name}
-            label={field.label}
-            name={field.name}
-            type={field.type}
-            value={values[field.name] || ""}
+            key={name}
+            label={label}
+            name={name}
+            type={type}
+            value={values[name] || ""}
             onChange={onChange}
-            errorMessage={errors[field.name]}
-            options={field.options}
-            required={field.required}
+            errorMessage={errors[name]}
+            options={options}
+            required={required}
             isSubmitted={isSubmitted}
-            disabled={field.disabled}
+            disabled={disabled}
+            unit={unit}
+            className={className}
           />
         ))}
       </div>
@@ -38,3 +39,4 @@ const FieldGroup: React.FC<FieldGroupProps> = ({ label, fields, values, errors, 
 };
 
 export default FieldGroup;
+
