@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Meal } from '../../types/meal';
+import { Edit, Trash } from 'lucide-react'; // Import icons
 
 // Define the props for MealListItem
 interface MealListItemProps {
-  meal: Meal,
-  onEdit?: (meal: MealListItemProps['meal']) => void;
+  meal: Meal;
+  onEdit?: (meal: Meal) => void;
   onDelete?: (mealId: string) => void;
   editButton?: React.ReactNode;
 }
 
+
 // MealListItem component
-const MealListItem = ({ meal, onEdit = () => {}, onDelete = () => {}, editButton = null }: MealListItemProps) => {
+const MealListItem = ({ meal, onEdit = () => {}, onDelete, editButton = null }: MealListItemProps) => {
   const [showDetails, setShowDetails] = useState(false);
 
   // Toggle details visibility
@@ -20,10 +22,14 @@ const MealListItem = ({ meal, onEdit = () => {}, onDelete = () => {}, editButton
     setShowDetails(!showDetails);
   };
 
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDelete?.(meal.id);
+  };
+
   return (
     <details 
-     /*  className="bg-white shadow-md rounded p-4 border-1 border-accent/30 gap-4"  */// Container styles
-      className="bg-white p-4 gap-4" // Container styles
+      className="bg-white p-4 gap-4 w-full" // Container styles
       open={showDetails}
     >
       <summary 
@@ -52,10 +58,12 @@ const MealListItem = ({ meal, onEdit = () => {}, onDelete = () => {}, editButton
       <div className="flex gap-2 p-4 justify-center"> {/* Buttons container with gap */}
         {editButton && (
           <Button size="sm" variant="default" onClick={(e: React.MouseEvent) => { e.stopPropagation(); onEdit?.(meal); }}>
+            <Edit className="h-4 w-4 mr-2" /> {/* Edit icon */}
             Edit
           </Button>
         )}
-        <Button size="sm" variant="destructive" onClick={(e: React.MouseEvent) => { e.stopPropagation(); onDelete?.(meal.id); }}>
+        <Button size="sm" variant="destructive" onClick={handleDelete}>
+          <Trash className="h-4 w-4 mr-2" /> {/* Trash icon */}
           Delete
         </Button>
       </div>

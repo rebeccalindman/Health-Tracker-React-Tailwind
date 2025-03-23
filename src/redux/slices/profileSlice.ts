@@ -3,21 +3,21 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type ProfileState = {
   gender: "male" | "female" | "other";
   userName: string;
-  weight: number;
-  height: number;
+  weight: number | null;
+  height: number | null;
   age: number | null;
   activityLevel: string;
   goal: string;
   birthDate?: string;
-  tdee: number | null;
+  tdee?: number | null;
 };
 
 
 const initialState: ProfileState = {
   gender: "male",
-  userName: "[User]",
-  weight: 0,
-  height: 0,
+  userName: "",
+  weight: null,
+  height: null,
   age: null,
   activityLevel: "",
   goal: "",

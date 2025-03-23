@@ -25,6 +25,8 @@ export interface InputFieldProps {
   isSubmitted?: boolean;
   disabled?: boolean;
   className?: string;
+  inputRef?: (el: HTMLInputElement | HTMLSelectElement | null) => void;
+
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -41,6 +43,7 @@ const InputField: React.FC<InputFieldProps> = ({
   isSubmitted,
   disabled,
   className = "",
+  inputRef,
 }) => {
   // Default onChange if none provided
   const handleChange =
@@ -90,6 +93,7 @@ const InputField: React.FC<InputFieldProps> = ({
           className={`${inputClasses} py-2`}
           aria-invalid={!!errorMessage}
           disabled={disabled}
+          ref={inputRef}
         >
           <option value="">Select an option</option>
           {options.map(({ value, label }, index) => (
@@ -111,6 +115,7 @@ const InputField: React.FC<InputFieldProps> = ({
             className={inputClasses}
             aria-invalid={!!errorMessage}
             disabled={disabled}
+            ref={inputRef}
           />
           {unit && (
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">
@@ -121,7 +126,7 @@ const InputField: React.FC<InputFieldProps> = ({
       )}
 
       {/* Error Message */}
-      {isSubmitted && errorMessage && <p className="text-red-700">{errorMessage}</p>}
+      {isSubmitted && errorMessage && <p className="text-xs mt-1 text-red-700 text-nowrap w-fit self-center">{errorMessage}</p>}
     </div>
   );
 };

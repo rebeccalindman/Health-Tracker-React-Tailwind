@@ -5,6 +5,7 @@ import MealForm from "./MealForm";
 import { Meal } from "../../types/meal";
 import { useState } from "react";
 
+
 const MealLog = () => {
   const mealLogs = useSelector((state: RootState) => state.meals.mealLogs ?? []);
   const [editing, setEditing] = useState<Meal | null>(null);

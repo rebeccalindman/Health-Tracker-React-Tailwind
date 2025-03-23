@@ -1,13 +1,21 @@
 import MealListItem from './MealListItem';
-import { Meal } from '../../types/meal';
+import { useDispatch } from 'react-redux';
+import { removeMeal } from '../../redux/slices/mealSlice';
+import { Meal } from "../../types/meal";
+
 interface MealListProps {
-  meals?: Array<{ id: string; title: string; energy: number; date: string; protein: number; carbohydrate: number; fat: number; category: string }>;
+  meals?: Meal[];
   onEdit?: (meal: Meal) => void;
 }
 
 const MealList = ({ meals = [], onEdit }: MealListProps) => {
   // Se till att meals är en array
   const sortedMeals = [...(meals || [])].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const dispatch = useDispatch();
+
+  const handleDelete = (mealId: string) => {
+    dispatch(removeMeal({ id: mealId }));
+};
 
   return (
     <div className="card w-full">
@@ -16,7 +24,12 @@ const MealList = ({ meals = [], onEdit }: MealListProps) => {
         <div className="flex flex-wrap justify-center items-center -mx-2 gap-2 w-fit">
           {sortedMeals.map((meal, index) => (
             <div key={index} className="w-full px-2 mb-4">
-              <MealListItem meal={meal} editButton={1} onEdit={onEdit} />
+              <MealListItem
+                meal={meal}
+                editButton={1}
+                onEdit={onEdit}
+                onDelete={handleDelete}
+              />
             </div>
           ))}
         </div>

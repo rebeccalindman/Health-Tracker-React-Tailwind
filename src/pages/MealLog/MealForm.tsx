@@ -8,7 +8,7 @@ import { InputFieldProps } from "../../components/Form/InputField";
 
 type MealFormProps = {
   initialData?: Meal | null;
- /*  isEditing: boolean; */
+  isEditing?: boolean;
 };
 
 const mealFields: InputFieldProps[] = [
@@ -39,7 +39,7 @@ const mealFieldGroups = [
   },
 ];
 
-const MealForm: React.FC<MealFormProps> = ({initialData, /* isEditing */}) => {
+const MealForm: React.FC<MealFormProps> = ({initialData, isEditing}) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<Meal>({
     id: uuidv4(),
@@ -105,9 +105,9 @@ const MealForm: React.FC<MealFormProps> = ({initialData, /* isEditing */}) => {
         fields={mealFields}
         fieldGroups={mealFieldGroups}
         initialData={formData}
-        onChange={handleChange} // ✅ MealForm handles state updates
-        onSubmit={handleSubmit} // ✅ MealForm handles submission
-/*         onClear={onClear} */
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        isEditing={isEditing}
       />
     </div>
   );

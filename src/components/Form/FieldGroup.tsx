@@ -1,38 +1,49 @@
 import InputField, { InputFieldProps } from "./InputField";
 
 export interface FieldGroupProps {
-  fields: InputFieldProps[]; // List of fields to render
-  values: Record<string, string | number | undefined>; // ✅ More precise typing for form values
-  errors: Record<string, string | undefined>; // ✅ More precise typing for error messages
+  label?: string;
+  fields: InputFieldProps[];
+  values: Record<string, string | number | undefined>;
+  errors: Record<string, string | undefined>;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   isSubmitted: boolean;
+  className?: string;
+  inputRefs?: Record<string, HTMLInputElement | HTMLSelectElement | null>;
 }
 
-const FieldGroup: React.FC<FieldGroupProps> = ({ fields, values, errors, onChange, isSubmitted }) => {
-
+const FieldGroup: React.FC<FieldGroupProps> = ({
+  label,
+  fields,
+  values,
+  errors,
+  onChange,
+  isSubmitted,
+  className,
+  inputRefs = {},
+}) => {
   return (
-    <>
-        {fields.map(({ name, label, type, options, required, disabled, unit, className }) => (
+    <div className={`rounded ${className || "col-span-full"}`}>
+      {label && <h3 className="block font-semibold mb-1">{label}</h3>}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-8 md:px-4 py-2">
+        {fields.map((field) => (
           <InputField
-            key={name}
-            label={label}
-            name={name}
-            type={type}
-            value={values[name] || ""}
+            key={field.name}
+            {...field}
+            className={field.className || "col-span-1"}
+            value={values[field.name] || ""}
             onChange={onChange}
-            errorMessage={errors[name]}
-            options={options}
-            required={required}
+            errorMessage={errors[field.name]}
             isSubmitted={isSubmitted}
-            disabled={disabled}
-            unit={unit}
-            className={className}
+            inputRef={(el) => {
+              if (inputRefs && field.name) {
+                inputRefs[field.name] = el;
+              }
+            }}
           />
         ))}
-
-    </>
+      </div>
+    </div>
   );
 };
 
 export default FieldGroup;
-

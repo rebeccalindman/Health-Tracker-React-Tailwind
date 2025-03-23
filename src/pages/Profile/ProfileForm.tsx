@@ -12,18 +12,21 @@ import { calculateAge } from "../../utils/dateUtils"; // ✅ Import the utility 
 const ProfileForm = () => {
   const dispatch = useDispatch();
 
-  const { gender, userName, weight, height, age, activityLevel, goal, birthDate } = useSelector(
+  const { gender, userName, height, age, activityLevel, goal, birthDate } = useSelector(
     (state: RootState) => state.profile
   );
+  
+  const weightHistory = useSelector((state: RootState) => state.weight.weightHistory);
+  const latestWeight = weightHistory.length > 0 ? weightHistory[weightHistory.length - 1].weight : null;
 
   const [formData, setFormData] = useState<ProfileFormData>({
     gender,
     userName,
-    weight,
-    height,
-    age,
-    activityLevel,
-    goal,
+    weight: latestWeight,
+    height: height === 0 ? null : height,
+    age: age === 0 ? null : age,
+    activityLevel: typeof activityLevel === "string" ? activityLevel : "",
+    goal: typeof goal === "string" ? goal : "",
     birthDate,
   });
 
@@ -118,7 +121,7 @@ const ProfileForm = () => {
     dispatch(
       addWeight({
         id: Date.now(),
-        weight: formData.weight,
+        weight: formData.weight ?? 0,
         date: new Date().toISOString().split("T")[0],
       })
     );

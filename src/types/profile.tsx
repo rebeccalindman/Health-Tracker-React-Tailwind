@@ -2,8 +2,8 @@
 export type Profile = {
   gender: "male" | "female" | "other";
   userName: string;
-  weight: number;
-  height: number;
+  weight: number | null;
+  height: number |null ;
   age: number | null;
   activityLevel: string;
   goal: string;
