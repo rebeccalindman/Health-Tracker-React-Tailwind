@@ -4,6 +4,7 @@ import AddWeight from '../../components/AddWeight.js';
 import TodaysMeals from './TodaysMeals.js';
 import KcalStatus from './KcalStatus.js';
 import WelcomeProfile from './WelcomeProfile.js';
+import WeightChart from './WeightChart.js';
 
 type DashboardProps = {};
 
@@ -32,8 +33,11 @@ const Dashboard = ({}: DashboardProps) => {
         </div>
 
         {/* Right Column (on larger screens), but moves under on smaller screens */}
-        <div className="md:col-span-1">
+        <div className="md:col-span-1 flex flex-col gap-4">
           <TodaysMeals />
+          <div className='card'>
+            <WeightChart />
+          </div>
         </div>
       </div>
     </>

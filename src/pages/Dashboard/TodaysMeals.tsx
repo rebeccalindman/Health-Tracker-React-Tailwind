@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import MealListItem from '../../components/MealList/MealListItem.js';
-import { Button } from '../../components/ui/button.js';
+import { Button } from '../../components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import { RootState } from '../../redux/store.js';
 import { Meal } from '../../types/meal.js'; // ✅ Import the correct type
