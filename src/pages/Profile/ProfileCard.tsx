@@ -27,7 +27,7 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div className="card">
+      {profile.userName &&<div className="card">
         <h2>{profile.userName}'s Profile</h2>
 
         {/* TDEE Section */}
@@ -54,7 +54,11 @@ const ProfileCard = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div>}
+      {!profile.userName &&<div className="card">
+        <h2>No profile found</h2>
+        <p className="text-center">Set up your profile to get started.</p>
+      </div>}
     </>
   );
 };

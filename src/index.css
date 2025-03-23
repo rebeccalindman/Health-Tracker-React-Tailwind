@@ -137,7 +137,7 @@
     @apply border-border outline-ring/50
   }
   main {
-    @apply flex flex-col justify-start items-center gap-4 p-4 h-full w-full max-w-[600px];
+    @apply flex flex-col justify-start items-center gap-4 p-4 h-full w-full max-w-[600px] flex-grow;
   }
   .card {
     @apply bg-card flex flex-col gap-4 text-card-foreground w-full rounded-md h-fit drop-shadow-[1px_1px_4px_rgba(0,0,0,0.1)];
