@@ -3,6 +3,7 @@ import ProfileForm from "./ProfileForm";
 import { Button } from "../../components/ui/button";
 import { useSearchParams } from "react-router-dom";
 import { Edit, ArrowLeft } from "lucide-react"; // Import icons
+import WeightList from "@/components/WeightList";
 
 const ProfileView = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,6 +40,8 @@ const ProfileView = () => {
           </>
         )}
       </Button>
+
+      <WeightList />
     </>
   );
 };

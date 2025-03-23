@@ -5,6 +5,9 @@ import TodaysMeals from './TodaysMeals.js';
 import KcalStatus from './KcalStatus.js';
 import WelcomeProfile from './WelcomeProfile.js';
 import WeightChart from './WeightChart.js';
+import { Button } from '@/components/ui/button.js';
+import { Navigate } from 'react-router';
+import { Edit } from 'lucide-react';
 
 type DashboardProps = {};
 
@@ -35,6 +38,10 @@ const Dashboard = ({}: DashboardProps) => {
           <div className='card'>
             <h2 className='text-center'>Weight History</h2>
             <WeightChart />
+            <Button className='w-fit self-center' onClick={() => { window.location.href = '/profile' }}>
+              <Edit className='mr-1' />
+              Edit Weight History
+            </Button>
           </div>
         </div>
       </div>
