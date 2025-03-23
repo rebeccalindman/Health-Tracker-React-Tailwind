@@ -4,8 +4,8 @@ import { Menu, X, LayoutDashboard, User, Notebook } from "lucide-react";
 
 const menuItems = [
   { path: "/", label: "Dashboard", icon: <LayoutDashboard className="inline self-center h-full mr-2" /> },
-  { path: "/profile", label: "Profil", icon: <User className="inline self-center h-full mr-2" /> },
-  { path: "/mealLog", label: "Måltider", icon: <Notebook className="inline self-center h-full mr-2" /> },
+  { path: "/profile", label: "Profile", icon: <User className="inline self-center h-full mr-2" /> },
+  { path: "/mealLog", label: "Meal Log", icon: <Notebook className="inline self-center h-full mr-2" /> },
 ];
 
 const Navbar = () => {

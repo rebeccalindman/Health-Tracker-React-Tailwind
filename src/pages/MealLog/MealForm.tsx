@@ -101,6 +101,7 @@ const MealForm: React.FC<MealFormProps> = ({initialData, isEditing}) => {
 
   return (
     <div className="card">
+      <h2>{isEditing ? "Edit" : "Add new"} meal</h2>
       <Form
         fields={mealFields}
         fieldGroups={mealFieldGroups}

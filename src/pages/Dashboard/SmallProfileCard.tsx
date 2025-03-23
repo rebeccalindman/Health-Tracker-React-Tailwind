@@ -12,8 +12,8 @@ const SmallProfileCard = () => {
   const { goal, activityLevel, userName } = useSelector((state: RootState) => state.profile);
 
   const profileSummary = [
-    { label: profileLabels.goal, value: goal ? capitalizeFirstLetter(goal) : "Not set" },
-    { label: profileLabels.activityLevel, value: activityLevel ? capitalizeFirstLetter(activityLevel) : "Calculating..." },
+    { label: profileLabels.goal, value: typeof goal === "string" ? capitalizeFirstLetter(goal) : "Not set" },
+    { label: profileLabels.activityLevel, value: typeof activityLevel === "string" ? capitalizeFirstLetter(activityLevel) : "Calculating..." },
   ];
 
   return (

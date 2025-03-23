@@ -5,10 +5,11 @@ import TodaysMeals from './TodaysMeals.js';
 import KcalStatus from './KcalStatus.js';
 import WelcomeProfile from './WelcomeProfile.js';
 
-const Dashboard = () => {
+type DashboardProps = {};
+
+const Dashboard = ({}: DashboardProps) => {
   const [showAddWeight, setShowAddWeight] = useState(false);
-/*   const energyData = [50, 30, 20]; // Exempeldata: 50% kolhydrater, 30% fett, 20% protein
- */
+
   return (
     <>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4 items-start w-full p-4'>
@@ -40,3 +41,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

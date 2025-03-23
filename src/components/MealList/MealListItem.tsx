@@ -1,71 +1,68 @@
-import { useState } from 'react';
-import { Button } from '../ui/button';
-import { Meal } from '../../types/meal';
-import { Edit, Trash } from 'lucide-react'; // Import icons
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { Meal } from "../../types/meal";
+import { Edit, Trash, ChevronDown } from "lucide-react";
 
-// Define the props for MealListItem
 interface MealListItemProps {
   meal: Meal;
   onEdit?: (meal: Meal) => void;
   onDelete?: (mealId: string) => void;
-  editButton?: React.ReactNode;
 }
 
-
-// MealListItem component
-const MealListItem = ({ meal, onEdit = () => {}, onDelete, editButton = null }: MealListItemProps) => {
+const MealListItem = ({ meal, onEdit, onDelete }: MealListItemProps) => {
   const [showDetails, setShowDetails] = useState(false);
 
-  // Toggle details visibility
-  const toggleDetails = (event: React.MouseEvent<HTMLDetailsElement>) => {
-    event.preventDefault();
-    setShowDetails(!showDetails);
+  const toggleDetails = (e: React.MouseEvent<HTMLMapElement>) => {
+    e.preventDefault();
+    setShowDetails((prev) => !prev);
   };
 
-  const handleDelete = (e: React.MouseEvent) => {
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     onDelete?.(meal.id);
   };
 
+  const renderDetail = (label: string, value: string | number, isHighlighted = false) => (
+    <p className={`${isHighlighted ? "bg-secondary p-2 rounded" : "p-2"}`}>
+      {label}: <span className={`font-bold text-primary ${isHighlighted ? "text-accent" : ""}`}>{value}</span>
+    </p>
+  );
+
   return (
-    <details 
-      className="bg-white p-4 gap-4 w-full" // Container styles
-      open={showDetails}
-    >
-      <summary 
-        className="flex justify-between items-start cursor-pointer gap-2" // Summary styles with gap for spacing
+    <details className="relative bg-white p-4" open={showDetails}>
+      <summary
         onClick={toggleDetails}
+        className="cursor-pointer flex flex-col gap-2 relative"
       >
-        <div className='w-full text-left'>
-          <h3 className="text-xl font-bold text-accent p-2">{meal.title}</h3> {/* Meal title */}
-          <p className="text-gray-600 p-2">Energi: <span className="text-primary font-bold">{meal.energy}</span> kcal</p> {/* Meal energy */}
-          <p className="bg-secondary w-full p-2">Datum: <span className="text-accent font-light">{meal.date}</span></p> {/* Meal date */}
+        <div className="w-full">
+          <h3 className="text-xl font-bold text-accent">{meal.title}</h3>
+          {renderDetail("Energi", `${meal.energy} kcal`)}
         </div>
-        <span className="inline-block h-fit transition-transform duration-200" style={{ transform: `rotate(${showDetails ? 180 : 0}deg)` }}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="inline-block h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /> {/* Arrow icon */}
-          </svg>
-        </span>
+
+        <ChevronDown
+          className={`absolute top-2 right-2 h-5 w-5 transform transition-transform duration-200 ${showDetails ? "rotate-180" : ""}`}
+        />
       </summary>
-      {showDetails && (
-        <div className="flex flex-col items-start text-left gap-2"> {/* Details section with gap */}
-          <p className="text-gray-600 p-2">Protein: <span className="text-primary font-bold">{meal.protein}</span> g</p> {/* Meal protein */}
-          <p className="bg-secondary w-full p-2">Kolhydrat: <span className="text-primary font-bold">{meal.carbohydrate}</span> g</p> {/* Meal carbohydrate */}
-          <p className="text-gray-600 p-2">Fett: <span className="text-primary font-bold">{meal.fat}</span> g</p> {/* Meal fat */}
-          <p className="bg-secondary w-full p-2">Kategori: <span className="text-accent text-light">{meal.category}</span></p> {/* Meal category */}
-        </div>
-      )}
-      <div className="flex gap-2 p-4 justify-center"> {/* Buttons container with gap */}
-        {editButton && (
-          <Button size="sm" variant="default" onClick={(e: React.MouseEvent) => { e.stopPropagation(); onEdit?.(meal); }}>
-            <Edit className="h-4 w-4 mr-2" /> {/* Edit icon */}
-            Edit
+
+      <div>
+        {renderDetail("Datum", meal.date, true)}
+        {renderDetail("Protein", `${meal.protein} g`)}
+        {renderDetail("Kolhydrat", `${meal.carbohydrate} g`, true)}
+        {renderDetail("Fett", `${meal.fat} g`)}
+        {renderDetail("Kategori", meal.category, true)}
+      </div>
+
+      <div className="flex justify-center gap-4 mt-4">
+        {onEdit && (
+          <Button size="sm" onClick={(e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); onEdit(meal); }}>
+            <Edit className="h-4 w-4 mr-2" /> Edit
           </Button>
         )}
-        <Button size="sm" variant="destructive" onClick={handleDelete}>
-          <Trash className="h-4 w-4 mr-2" /> {/* Trash icon */}
-          Delete
-        </Button>
+        {onDelete && (
+          <Button size="sm" variant="destructive" onClick={handleDelete}>
+            <Trash className="h-4 w-4 mr-2" /> Delete
+          </Button>
+        )}
       </div>
     </details>
   );

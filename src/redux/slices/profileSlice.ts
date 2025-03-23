@@ -9,7 +9,7 @@ type ProfileState = {
   activityLevel: string;
   goal: string;
   birthDate?: string;
-  tdee?: number | null;
+  tdee: number | null;
 };
 
 

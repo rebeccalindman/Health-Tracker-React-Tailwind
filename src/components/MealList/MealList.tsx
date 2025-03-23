@@ -18,15 +18,15 @@ const MealList = ({ meals = [], onEdit }: MealListProps) => {
 };
 
   return (
-    <div className="card w-full">
-      <h2 className="text-2xl font-bold mb-4 text-center text-primary">Loggade måltider</h2>
+    <div className="card w-full text-center md:text-right">
+      <h2 className="text-2xl font-bold mb-4 text-center md:text-left text-primary">Logged Meals</h2>
       {sortedMeals.length > 0 ? (
-        <div className="flex flex-wrap justify-center items-center -mx-2 gap-2 w-fit">
+        <div className="flex flex-wrap justify-center items-center -mx-2 gap-2 w-full text-center md:text-left">
           {sortedMeals.map((meal, index) => (
             <div key={index} className="w-full px-2 mb-4">
               <MealListItem
                 meal={meal}
-                editButton={1}
+                /* editButton={1} */
                 onEdit={onEdit}
                 onDelete={handleDelete}
               />
@@ -34,7 +34,7 @@ const MealList = ({ meals = [], onEdit }: MealListProps) => {
           ))}
         </div>
       ) : (
-        <p className="text-center text-sm text-gray-500">Inga måltider registrerade.</p>
+        <p className="text-center text-sm text-gray-500">No meals registered</p>
       )}
     </div>
   );
