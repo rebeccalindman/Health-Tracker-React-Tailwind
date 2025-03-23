@@ -22,18 +22,20 @@ const MealListItem = ({ meal, onEdit = () => {}, onDelete = () => {}, editButton
 
   return (
     <details 
-      className="bg-white shadow-md rounded p-4 border-1 border-accent/30 gap-4" // Container styles
+     /*  className="bg-white shadow-md rounded p-4 border-1 border-accent/30 gap-4"  */// Container styles
+      className="bg-white p-4 gap-4" // Container styles
       open={showDetails}
     >
       <summary 
-        className="flex justify-between items-center cursor-pointer gap-2" // Summary styles with gap for spacing
+        className="flex justify-between items-start cursor-pointer gap-2" // Summary styles with gap for spacing
         onClick={toggleDetails}
       >
-        <div>
-          <h3 className="text-xl font-bold text-accent text-left p-2">{meal.title}</h3> {/* Meal title */}
+        <div className='w-full text-left'>
+          <h3 className="text-xl font-bold text-accent p-2">{meal.title}</h3> {/* Meal title */}
           <p className="text-gray-600 p-2">Energi: <span className="text-primary font-bold">{meal.energy}</span> kcal</p> {/* Meal energy */}
+          <p className="bg-secondary w-full p-2">Datum: <span className="text-accent font-light">{meal.date}</span></p> {/* Meal date */}
         </div>
-        <span className="inline-block transition-transform duration-200" style={{ transform: `rotate(${showDetails ? 180 : 0}deg)` }}>
+        <span className="inline-block h-fit transition-transform duration-200" style={{ transform: `rotate(${showDetails ? 180 : 0}deg)` }}>
           <svg xmlns="http://www.w3.org/2000/svg" className="inline-block h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /> {/* Arrow icon */}
           </svg>
@@ -41,7 +43,6 @@ const MealListItem = ({ meal, onEdit = () => {}, onDelete = () => {}, editButton
       </summary>
       {showDetails && (
         <div className="flex flex-col items-start text-left gap-2"> {/* Details section with gap */}
-          <p className="bg-secondary w-full p-2">Datum: <span className="text-accent font-light">{meal.date}</span></p> {/* Meal date */}
           <p className="text-gray-600 p-2">Protein: <span className="text-primary font-bold">{meal.protein}</span> g</p> {/* Meal protein */}
           <p className="bg-secondary w-full p-2">Kolhydrat: <span className="text-primary font-bold">{meal.carbohydrate}</span> g</p> {/* Meal carbohydrate */}
           <p className="text-gray-600 p-2">Fett: <span className="text-primary font-bold">{meal.fat}</span> g</p> {/* Meal fat */}

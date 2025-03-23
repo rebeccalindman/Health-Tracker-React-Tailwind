@@ -24,7 +24,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav ref={navRef} className="flex w-full items-center">
+    <nav ref={navRef} className="flex w-fit items-center">
       {/* Mobile Menu Icon (Replaces Button) */}
       <div
         className="p-4 h-full w-full flex justify-end hover:bg-accent rounded-md md:hidden cursor-pointer"

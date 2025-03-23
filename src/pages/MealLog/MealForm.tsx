@@ -8,7 +8,7 @@ import { InputFieldProps } from "../../components/Form/InputField";
 
 type MealFormProps = {
   initialData?: Meal | null;
-  clearForm?: () => void;
+ /*  isEditing: boolean; */
 };
 
 const mealFields: InputFieldProps[] = [
@@ -39,10 +39,10 @@ const mealFieldGroups = [
   },
 ];
 
-const MealForm: React.FC<MealFormProps> = ({ initialData, clearForm }) => {
+const MealForm: React.FC<MealFormProps> = ({initialData, /* isEditing */}) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<Meal>({
-    id: "",
+    id: uuidv4(),
     title: "",
     energy: 0,
     date: new Date().toISOString().split("T")[0], // ✅ Default to today's date
@@ -51,6 +51,7 @@ const MealForm: React.FC<MealFormProps> = ({ initialData, clearForm }) => {
     fat: 0,
     category: "",
   });
+
 
   useEffect(() => {
     if (initialData) {
@@ -67,16 +68,36 @@ const MealForm: React.FC<MealFormProps> = ({ initialData, clearForm }) => {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     if (formData.title && formData.energy && formData.date && formData.category) {
       if (initialData) {
         dispatch(updateMeal(formData));
+        console.log("Meal form updated with formData", formData)
+        clearForm();
       } else {
         dispatch(addMeal({ ...formData, id: uuidv4() }));
+        console.log("New Meal added with formData", formData)
+        clearForm();
       }
-      if (clearForm) clearForm();
     }
+    else {
+      return console.log("Missing input data");
+    }
+
   };
+
+  const clearForm = () => {
+    console.log("Form is cleared")
+    setFormData({ 
+      id: "",
+      title: "",
+      energy: 0,
+      date: new Date().toISOString().split("T")[0], // ✅ Default to today's date
+      protein: 0,
+      carbohydrate: 0,
+      fat: 0,
+      category: "",
+    })
+  }
 
   return (
     <div className="card">
@@ -86,6 +107,7 @@ const MealForm: React.FC<MealFormProps> = ({ initialData, clearForm }) => {
         initialData={formData}
         onChange={handleChange} // ✅ MealForm handles state updates
         onSubmit={handleSubmit} // ✅ MealForm handles submission
+/*         onClear={onClear} */
       />
     </div>
   );

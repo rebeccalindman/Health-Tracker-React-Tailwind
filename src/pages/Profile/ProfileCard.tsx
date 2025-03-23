@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { Profile } from "../../types/profile";
 import { capitalizeFirstLetter } from "../../utils/stringUtils";
+import Highlighted from "../../components/Highlighted"; // Import the new component
 
 const ProfileCard = () => {
   const profile = useSelector((state: RootState) => state.profile) as Profile;
@@ -19,29 +20,21 @@ const ProfileCard = () => {
   };
 
   const sections = [
-    {
-      title: "Personal Information",
-      keys: ["gender", "age"],
-    },
-    {
-      title: "Health",
-      keys: ["weight", "height"],
-    },
-    {
-      title: "Activity",
-      keys: ["activityLevel", "goal"],
-    },
+    { title: "Personal Information", keys: ["gender", "age"] },
+    { title: "Health", keys: ["weight", "height"] },
+    { title: "Activity", keys: ["activityLevel", "goal"] },
   ];
 
   return (
     <>
       <div className="card">
         <h2>{profile.userName}'s Profile</h2>
+
         {/* TDEE Section */}
-        <div className="text-center bg-accent/10 rounded p-2">
+        <Highlighted>
           <p className="text-center">Estimated daily kcal</p>
-          <p className="text-accent font-bold text-xl">{profile.tdee || "N/A"} kcal</p>
-        </div>
+          <p className="font-bold text-xl">{profile.tdee || "N/A"} kcal</p>
+        </Highlighted>
 
         {/* Profile Sections */}
         {sections.map((section) => (
@@ -67,4 +60,3 @@ const ProfileCard = () => {
 };
 
 export default ProfileCard;
-

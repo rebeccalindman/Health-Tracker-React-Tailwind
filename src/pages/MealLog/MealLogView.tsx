@@ -11,7 +11,7 @@ const MealLog = () => {
 
   return (
     <>
-      <MealForm initialData={editing} clearForm={() => setEditing(null)} />
+      <MealForm initialData={editing} /* isEditing={() => setEditing(null)} */ />
       <MealList meals={mealLogs} onEdit={setEditing} />
     </>
   );

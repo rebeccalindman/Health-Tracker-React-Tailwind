@@ -1,10 +1,8 @@
-type LogoProps = {
-  onClick: () => void;
-};
+type LogoProps = {};
 
-const Logo: React.FC<LogoProps> = ({ onClick }) => {
+const Logo: React.FC<LogoProps> = () => {
   return (
-    <figure className="max-h-[50px] max-w-[50px] md:flex md:max-h-[70px] md:max-w-[70px] items-center justify-center rounded-full overflow-clip" onClick={onClick}>
+    <figure className="h-[40px] w-[40px] md:flex md:min-h-[70px] md:min-w-[70px] items-center justify-center rounded-full overflow-clip">
       <img
         className="h-full w-full object-contain"
         src="src/assets/Icon.webp"

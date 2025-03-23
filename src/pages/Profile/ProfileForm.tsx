@@ -108,7 +108,7 @@ const ProfileForm = () => {
     setSuccessMessage(null);
   };
 
-  const handleSave = () => {
+  const handleSubmit = () => {
     if (previewTDEE !== null) {
       dispatch(setTDEE(previewTDEE));
     }
@@ -144,7 +144,7 @@ const ProfileForm = () => {
           fieldGroups={profileFieldGroups}
           initialData={formData}
           onChange={handleChange}
-          onSubmit={handleSave}
+          onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-4 gap-4"
         />
 
