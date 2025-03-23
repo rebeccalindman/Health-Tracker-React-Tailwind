@@ -74,38 +74,77 @@ For licensing information, please contact the repository owner.
 If you have any questions or need assistance, feel free to **open an issue** in the repository.
 
 
-# Accessibility & User Experience
+# ♿ Accessibility & User Experience
+## ✅ Inclusive Form Validation
+To support a smoother and more accessible experience, this app uses custom validation patterns that:
+  * Clearly prevent form submission until all required fields are filled
+  * Guide the user with subtle, immediate visual feedback
+  * Avoid relying solely on native browser alerts or one-field-at-a-time validation
 
-## 🚀 Custom Form Validation
+## 💡 Key Behaviors
+- The Submit button is disabled until all required inputs are filled
+- Inputs are marked as required in the UI
+- There is no native browser validation pop-up (noValidate is set on the <form>)
+- Users receive real-time feedback as they type
+- Focus remains on clean UX without overwhelming the user with error messages
 
-### ❓ Why Custom Validation?
-By default, browsers only highlight **one missing field at a time** when using the `required` attribute. However, we want users to **see all missing fields at once** when they attempt to submit the form. This improves user experience by making it clear which fields need attention.
+🧠 Why This Matters
+- Native browser validation highlights only one missing field at a time, which can confuse users
+- By disabling the submit button, users know instantly when the form is ready to go
+- Color, spacing, and logical grouping improve the experience for users with cognitive or visual impairments
 
-To achieve this, we **disabled native browser validation** (`noValidate` on `<form>`) and implemented our own validation logic.
+## 🧩 Icon-Based Visual Cues
+All key action buttons include icons alongside text to support:
+- Users with color blindness or low contrast sensitivity
+- Faster visual scanning (e.g. checkmark = submit, X = cancel, etc.)
+- Better mobile and keyboard usability
 
----
-
-### 🔍 How It Works
-- When the user clicks **submit**, all required fields are checked.
-- If a required field is **empty**, it is outlined in **red** and an error message appears.
-- If the user enters a value, the red border disappears instantly.
-- Once all required fields are filled, the form submits successfully.
-
----
-
-### ✅ Expected Behavior
-1. **Before submission:**  
-   - The form looks normal.
-   
-2. **After clicking submit with missing fields:**  
-   - All missing required fields turn **red**.
-   - An error message appears under each missing field.
-
-3. **When fixing an error:**  
-   - As soon as the user enters a value, the **red border disappears**.
-
-4. **After fixing all errors and clicking submit:**  
-   - The form submits successfully.
+## 🧪 Bonus UX Improvements
+- Success messages appear after saving profile info to provide confirmation
+- TDEE preview updates live, giving immediate feedback based on form inputs
+- Weight input is auto-filled with the most recent logged weight, making form completion easier
+- The form is optimized for keyboard use and responsive on all screen sizes
 
 
+
+# 🔄 Changelog – Recent Improvements
+
+## 🟩 Weight Tracking Feature
+- ✅ Added interactive weight chart using Recharts and Shadcn/UI
+- ✅ Custom tooltip displays both date and weight
+- ✅ Chart auto-updates with new Redux data
+- ✅ Filters data to the latest April–March year
+
+## 🟦 Redux & State Management
+- ✅ Created dedicated `weightSlice` for `weightHistory`
+- ✅ Refactored to use Redux Toolkit actions (add, edit, remove weight)
+- ✅ Connected chart and profile form to Redux
+- ✅ Synced profile, meals, and weight to `localStorage`
+
+## 🟨 Local Storage Refactor
+- ✅ Modular, type-safe `localStorage.ts` utility
+- ✅ Removed duplicated logic
+- ✅ Centralized keys and fallback values
+
+## 🟧 Profile Form Improvements
+- ✅ Created `ProfileFormData` type (`Omit<Profile, "tdee">`)
+- ✅ Handled age-from-birthdate conversion
+- ✅ Dynamic TDEE preview
+- ✅ Pre-filled weight field from Redux `weightSlice`
+- ✅ Submits both profile and weight together
+- ✅ Displays success message on save
+
+## 🧪 Bonus Wins
+- 🧹 Removed outdated `weight[]` from profile
+- 🧩 Used `useMemo` and `useEffect` to optimize logic
+- 💬 Added real-time form feedback
+- 🚀 Set up for future features like weight editing/exporting
+
+## ♿ Accessibility & UX
+- 🧩 Custom Form Validation
+  - By default, browsers only highlight one invalid field at a time. We wanted users to see all missing fields at once for better UX.
+  - ✅ Disabled native validation (`noValidate`)
+  - ✅ Built custom logic to check all required fields
+  - ✅ Displays red outlines and error messages for all invalid fields
+  - ✅ Errors disappear instantly once fixed
 
