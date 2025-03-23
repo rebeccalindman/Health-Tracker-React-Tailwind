@@ -1,104 +1,67 @@
-// src/storage/storage.js
+import { Profile } from "../types/profile"
+import { Weight } from "../types/weight"
+import { Meal } from "../types/meal"
 
-export const loadState = () => {
+const STORAGE_KEYS = {
+  profile: "profile",
+  mealLogs: "mealLogs",
+  weightHistory: "weightHistory",
+}
+
+// Generic load function
+const load = <T>(key: string, fallback: T): T => {
   try {
-    const mealLogs = JSON.parse(localStorage.getItem("mealLogs")) || [];
-    const profile = JSON.parse(localStorage.getItem("profile")) || {
-      gender: "male",
-      weight: [/* { id: 1, weight: 0, date: "åååå-mm-dd" } */],
-      height: 0,
-      age: 0,
-      activityLevel: 1.2,
-      goal: 0,
-      tdee: 0,
-      birthDate: "",
-    };
-
-    return { meals: { mealLogs }, profile };
-  } catch (err) {
-    console.error("Error loading state:", err);
-    return {
-      meals: { mealLogs: [] },
-      profile: {
-        gender: "",
-        weight: [{ id: 1, weight: 0, date: "åååå-mm-dd" }],
-        height: 0,
-        age: 0,
-        activityLevel: 0,
-        goal: 0,
-        tdee: 0,
-        birthDate: "",
-      },
-    };
+    const raw = localStorage.getItem(key)
+    return raw ? JSON.parse(raw) : fallback
+  } catch (error) {
+    console.error(`Error loading ${key}:`, error)
+    return fallback
   }
-};
+}
 
-export const saveState = (state) => {
+// Generic save function
+const save = (key: string, value: unknown) => {
   try {
-    localStorage.setItem(
-      "mealLogs",
-      JSON.stringify(state.meals?.mealLogs || [])
-    );
-    localStorage.setItem("profile", JSON.stringify(state.profile));
-  } catch (err) {
-    console.error("Error saving state:", err);
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch (error) {
+    console.error(`Error saving ${key}:`, error)
   }
-};
+}
 
-// Ladda mealLogs från localStorage
-export const loadMealLogs = () => {
-  try {
-    const mealLogs = JSON.parse(localStorage.getItem("mealLogs")) || [];
-    return mealLogs;
-  } catch (err) {
-    console.error("Error loading mealLogs:", err);
-    return [];
-  }
-};
+// Profile
+export const loadProfile = (): Profile => {
+  return load<Profile>(STORAGE_KEYS.profile, {
+    gender: "male",
+    userName: "",
+    weight: null,
+    height: null,
+    age: null,
+    activityLevel: "",
+    goal: "",
+    birthDate: "", 
+    tdee: null,
+  })
+}
 
-// Spara mealLogs till localStorage
-export const saveMealLogs = (mealLogs) => {
-  try {
-    localStorage.setItem("mealLogs", JSON.stringify(mealLogs));
-  } catch (err) {
-    console.error("Error saving mealLogs:", err);
-  }
-};
 
-// Ladda profile från localStorage
-export const loadProfile = () => {
-  try {
-    const profile = JSON.parse(localStorage.getItem("profile")) || {
-      gender: "male",
-      weight: [/* { id: 1, weight: 0, date: "åååå-mm-dd" } */],
-      height: 0,
-      age: 0,
-      activityLevel: 1.2,
-      goal: 0,
-      tdee: 0,
-      birthDate: "",
-    };
-    return profile;
-  } catch (err) {
-    console.error("Error loading profile:", err);
-    return {
-      gender: "",
-      weight: [{ id: 1, weight: 0, date: "åååå-mm-dd" }],
-      height: 0,
-      age: 0,
-      activityLevel: 0,
-      goal: 0,
-      tdee: 0,
-      birthDate: "",
-    };
-  }
-};
+export const saveProfile = (profile: Profile) => {
+  save(STORAGE_KEYS.profile, profile)
+}
 
-// Spara profile till localStorage
-export const saveProfile = (profile) => {
-  try {
-    localStorage.setItem("profile", JSON.stringify(profile));
-  } catch (err) {
-    console.error("Error saving profile:", err);
-  }
-};
+// Meal logs
+export const loadMealLogs = (): Meal[] => {
+  return load<Meal[]>(STORAGE_KEYS.mealLogs, [])
+}
+
+export const saveMealLogs = (logs: Meal[]) => {
+  save(STORAGE_KEYS.mealLogs, logs)
+}
+
+// Weight history
+export const loadWeightHistory = (): Weight[] => {
+  return load<Weight[]>(STORAGE_KEYS.weightHistory, [])
+}
+
+export const saveWeightHistory = (history: Weight[]) => {
+  save(STORAGE_KEYS.weightHistory, history)
+}

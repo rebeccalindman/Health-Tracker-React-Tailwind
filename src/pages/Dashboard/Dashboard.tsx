@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import CurrentWeight from './CurrentWeight.js';
-import AddWeight from '../../components/AddWeight.js';
+import AddWeight from './AddWeight.js';
 import TodaysMeals from './TodaysMeals.js';
 import KcalStatus from './KcalStatus.js';
 import WelcomeProfile from './WelcomeProfile.js';
