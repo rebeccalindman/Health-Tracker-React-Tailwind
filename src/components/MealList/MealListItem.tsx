@@ -36,7 +36,7 @@ const MealListItem = ({ meal, onEdit, onDelete }: MealListItemProps) => {
       >
         <div className="w-full">
           <h3 className="text-xl font-bold text-accent">{meal.title}</h3>
-          {renderDetail("Energi", `${meal.energy} kcal`)}
+          {renderDetail("Energy", `${meal.energy} kcal`)}
         </div>
 
         <ChevronDown
@@ -45,11 +45,11 @@ const MealListItem = ({ meal, onEdit, onDelete }: MealListItemProps) => {
       </summary>
 
       <div>
-        {renderDetail("Datum", meal.date, true)}
+        {renderDetail("Date", meal.date, true)}
         {renderDetail("Protein", `${meal.protein} g`)}
-        {renderDetail("Kolhydrat", `${meal.carbohydrate} g`, true)}
-        {renderDetail("Fett", `${meal.fat} g`)}
-        {renderDetail("Kategori", meal.category, true)}
+        {renderDetail("Carbs", `${meal.carbohydrate} g`, true)}
+        {renderDetail("Fat", `${meal.fat} g`)}
+        {renderDetail("Category", meal.category, true)}
       </div>
 
       <div className="flex justify-center gap-4 mt-4">

@@ -17,7 +17,7 @@ const SmallProfileCard = () => {
   ];
 
   return (
-    <div className="card p-4 w-full max-w-[300px] shadow-md">
+    <div className="card p-4 w-full shadow-md">
       <h2 className="mb-3">Hello <span>{userName}</span>!</h2>
 
       {profileSummary.map(({ label, value }) => (

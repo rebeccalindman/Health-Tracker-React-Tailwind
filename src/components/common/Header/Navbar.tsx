@@ -42,7 +42,7 @@ const Navbar = () => {
             <NavLink
               to={path}
               className={({ isActive }) =>
-                `p-4 hover:bg-accent rounded-md flex items-center transition-all duration-200 ${
+                `p-4 hover:bg-accent hover:text-accent-foreground rounded-md flex items-center transition-all duration-200 ${
                   isActive ? "bg-primary text-white font-bold" : ""
                 }`
               }
@@ -61,7 +61,7 @@ const Navbar = () => {
               <NavLink
                 to={path}
                 className={({ isActive }) =>
-                  `px-4 py-2 flex items-center rounded-md transition-all duration-200 ${
+                  `px-4 py-2 flex hover:bg-accent hover:text-accent-foreground items-center rounded-md transition-all duration-200 ${
                     isActive ? "bg-primary text-white font-bold" : "hover:bg-accent"
                   }`
                 }

@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store.js';
 import { Meal } from '../../types/meal.js';
+import Highlighted from '@/components/Highlighted.js';
 
 const KcalStatus = () => {
   const tdee = useSelector<RootState, number | null>((state) => state.profile.tdee);
@@ -26,9 +27,11 @@ const KcalStatus = () => {
   const remainingKcal = Math.max((tdee ?? 0) - consumedCalories, 0);
 
   return (
-    <section className='card flex flex-col items-center p-4'>
-      <p className='font-bold text-primary text-3xl'>{Math.round(remainingKcal)}</p>
-      <p className='text-lg'>kcal kvar idag</p>
+    <section className='flex flex-col items-center'>
+      <Highlighted>
+      <p className='font-bold text-3xl'>{Math.round(remainingKcal)}</p>
+      <p className='text-lg'>kcal left today</p>
+      </Highlighted>
     </section>
   );
 };

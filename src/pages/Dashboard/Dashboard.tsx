@@ -22,20 +22,18 @@ const Dashboard = ({}: DashboardProps) => {
           {showAddWeight ? (
             <AddWeight onSubmit={() => setShowAddWeight(false)} />
           ) : (
-            <div className="m-0 cursor-pointer w-fit h-fit" onClick={() => setShowAddWeight(true)}>
+            <div className="m-0 cursor-pointer w-full h-fit" onClick={() => setShowAddWeight(true)}>
               <CurrentWeight />
             </div>
           )}
 
-        <section className="card">
-          {/* Todo add energy pie chart component */}
-        </section>
         </div>
 
         {/* Right Column (on larger screens), but moves under on smaller screens */}
         <div className="md:col-span-1 flex flex-col gap-4">
           <TodaysMeals />
           <div className='card'>
+            <h2 className='text-center'>Weight History</h2>
             <WeightChart />
           </div>
         </div>

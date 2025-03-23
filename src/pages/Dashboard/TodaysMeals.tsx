@@ -15,18 +15,18 @@ const TodaysMeals = () => {
 
   return (
     <section className='card'>
-      <h2 className='text-lg font-bold'>Dagens måltider</h2>
+      <h2 className='text-center'>Today's Meals</h2>
       <p className='text-sm text-gray-500'>{todaysDate}</p>
       {todaysMeals.length === 0 && <p className='text-sm text-gray-500 card'>Inga måltider registrerade idag.</p>}
 
       <Button onClick={() => { window.location.href = '/mealLog' }}>
         <PlusCircle className="inline-block" />
-        Lägg till måltid
+        Add a meal
       </Button>
 
       {/* ✅ Corrected: Map over meals and render MealListItem for each */}
       {todaysMeals.length > 0 && (
-        <div className='flex flex-col-reverse gap-2'>
+        <div className='flex flex-col-reverse gap-2 text-left'>
           {todaysMeals.map((meal) => (
             <MealListItem key={meal.id} meal={meal} /> // ✅ Now TypeScript knows meal has an `id`
           ))}

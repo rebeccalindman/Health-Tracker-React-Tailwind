@@ -24,25 +24,39 @@ import {
     const weightHistory = useSelector((state: RootState) => state.weight.weightHistory)
 
     const chartData = useMemo(() => {
-      const grouped = weightHistory.reduce((acc, entry) => {
-        const month = new Date(entry.date).toLocaleString("default", { month: "long" })
-        const existing = acc.find((item) => item.month === month)
-        if (existing) {
-          existing.weights.push(entry.weight)
-        } else {
-          acc.push({
-            month,
-            weights: [entry.weight],
-          })
-        }
-        return acc
-      }, [] as { month: string; weights: number[] }[])
-
-      return grouped.map((item) => ({
-        month: item.month,
-        weight: item.weights.reduce((sum, weight) => sum + weight, 0) / item.weights.length,
-      }))
-    }, [weightHistory])
+        const grouped = weightHistory.reduce((acc, entry) => {
+          const dateObj = new Date(entry.date)
+          const month = dateObj.toLocaleString("default", { month: "long" })
+          const year = dateObj.getFullYear()
+          const monthIndex = dateObj.getMonth() // 0 = Jan, 11 = Dec
+          const key = `${year}-${String(monthIndex + 1).padStart(2, "0")}` // e.g., 2025-03
+      
+          const existing = acc.find((item) => item.key === key)
+      
+          if (existing) {
+            existing.weights.push(entry.weight)
+          } else {
+            acc.push({
+              key,
+              month,
+              year,
+              weights: [entry.weight],
+              monthIndex,
+            })
+          }
+      
+          return acc
+        }, [] as { key: string; month: string; year: number; weights: number[]; monthIndex: number }[])
+      
+        return grouped
+          .map((item) => ({
+            month: `${item.month} ${item.year}`, // e.g., "March 2025"
+            weight: item.weights.reduce((sum, w) => sum + w, 0) / item.weights.length,
+            sortValue: item.year * 12 + item.monthIndex,
+          }))
+          .sort((a, b) => a.sortValue - b.sortValue)
+      }, [weightHistory])
+      
 
     return (
       <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
@@ -60,7 +74,7 @@ import {
               if (!payload?.length) return null
               const data = payload[0].payload
               return (
-                <div className="rounded-md border bg-background p-2 text-sm shadow-sm">
+                <div className="rounded-md border bg-background p-2 text-sm text-left shadow-sm">
                   <div className="font-medium text-muted-foreground">Date: {data.month}</div>
                   <div className="font-medium text-muted-foreground">Weight: {data.weight.toFixed(2)} kg</div>
                 </div>
