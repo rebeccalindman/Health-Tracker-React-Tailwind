@@ -7,7 +7,7 @@ const Header = () => {
       {/* Left: Logo & Title */}
       <div className="flex items-center space-x-4 hover:cursor-pointer" onClick={() => (window.location.href = "/")}>
         <Logo />
-        <h1 className="text-3xl md:text-4xl">Hälsokollen</h1>
+        <h1 className="text-3xl md:text-4xl">BodyData</h1>
       </div>
 
       {/* Right: Navbar */}
