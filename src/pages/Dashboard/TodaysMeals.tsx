@@ -3,14 +3,13 @@ import MealListItem from '../../components/MealList/MealListItem.js';
 import { Button } from '../../components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import { RootState } from '../../redux/store.js';
-import { Meal } from '../../types/meal.js'; // ✅ Import the correct type
+import { Meal } from '../../types/meal.js'; 
 
 const TodaysMeals = () => {
-  const meals = useSelector((state: RootState) => state.meals.mealLogs ?? []) as Meal[]; // ✅ Explicit type
+  const meals = useSelector((state: RootState) => state.meals.mealLogs ?? []) as Meal[]; 
 
   const todaysDate = new Date().toISOString().split('T')[0];
 
-  // ✅ Ensure todaysMeals is correctly typed
   const todaysMeals: Meal[] = meals.filter((meal) => meal.date === todaysDate);
 
   return (
@@ -24,11 +23,10 @@ const TodaysMeals = () => {
         Add a meal
       </Button>
 
-      {/* ✅ Corrected: Map over meals and render MealListItem for each */}
       {todaysMeals.length > 0 && (
         <div className='flex flex-col-reverse gap-2 text-left'>
           {todaysMeals.map((meal) => (
-            <MealListItem key={meal.id} meal={meal} /> // ✅ Now TypeScript knows meal has an `id`
+            <MealListItem key={meal.id} meal={meal} /> 
           ))}
         </div>
       )}
