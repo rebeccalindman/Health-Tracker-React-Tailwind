@@ -27,7 +27,7 @@ const ProfileCard = () => {
 
   return (
     <>
-      {profile.userName &&<div className="card">
+      {profile.userName &&<div className="card max-w-[400px]">
         <h2>{profile.userName}'s Profile</h2>
 
         {/* TDEE Section */}
@@ -38,11 +38,11 @@ const ProfileCard = () => {
 
         {/* Profile Sections */}
         {sections.map((section) => (
-          <div key={section.title} className="rounded">
+          <div key={section.title} className="rounded flex flex-col items-center md:items-start md:text-left w-fit">
             <h3 className="text-lg font-semibold">{section.title}</h3>
-            <div className="grid grid-cols-2 gap-4 px-2 max-w-[400px] self-center">
+            <div className="grid grid-cols-2 gap-4 px-2 w-fit">
               {section.keys.map((key) => (
-                <div key={key} className="flex flex-col text-center md:text-left">
+                <div key={key} className="flex flex-col">
                   <span className="py-1 text-lg md:text-md">{profileLabels[key as keyof Profile]}</span>
                   <span className="text-lg font-bold">
                     {typeof profile[key as keyof Profile] === "string"

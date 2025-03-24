@@ -9,7 +9,7 @@ const WeightList = () => {
   const sortedWeights = [...weightHistory].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <div className="card mx-auto">
+    <div className="card mx-auto max-w-[400px]">
       <h3 className="text-lg font-bold text-gray-700 mb-4">Weight History</h3>
       {sortedWeights.length > 0 ? (
         sortedWeights.map((weight) => <WeightListItem key={weight.id} weightData={weight} />)
