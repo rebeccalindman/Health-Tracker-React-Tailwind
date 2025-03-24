@@ -38,7 +38,7 @@ const ProfileCard = () => {
 
         {/* Profile Sections */}
         {sections.map((section) => (
-          <div key={section.title} className="rounded flex flex-col items-center md:items-start md:text-left w-fit">
+          <div key={section.title} className="rounded flex flex-col items-center justify-center text-center md:items-start md:text-left w-full">
             <h3 className="text-lg font-semibold">{section.title}</h3>
             <div className="grid grid-cols-2 gap-4 px-2 w-fit">
               {section.keys.map((key) => (
