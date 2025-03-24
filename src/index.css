@@ -182,17 +182,17 @@
     @apply border-border outline-ring/50
   }
   main {
-    @apply flex flex-col justify-start items-center gap-4 p-4 h-full w-full max-w-[600px] flex-grow;
+    @apply flex flex-col justify-start items-center gap-4 p-4 h-full w-full max-w-[800px] flex-grow;
   }
   .card {
     @apply bg-card flex flex-col gap-4 text-card-foreground w-full rounded-md h-fit drop-shadow-[1px_1px_4px_rgba(0,0,0,0.1)];
   }
 
   h2 {
-    @apply text-2xl font-semibold text-primary w-full md:text-left mb-2;
+    @apply text-2xl font-semibold text-primary w-full md:text-left text-wrap overflow-ellipsis overflow-clip;
   }
   h3 {
-    @apply text-primary text-xl md:text-xl font-semibold w-full text-center md:text-left mb-2 border-t-2 border-secondary py-2;
+    @apply text-primary text-xl md:text-xl font-semibold w-full text-center md:text-left text-wrap overflow-clip overflow-ellipsis;
   }
 }
 

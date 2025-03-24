@@ -9,10 +9,10 @@ const CurrentWeight: React.FC = () => {
   return (
     <section className='card group flex items-center'>
       {latestWeight ? (
-        <p className='text-xl w-[150px]'>
-          <span className='font-bold text-xl text-primary transition duration-200'>{latestWeight.weight} </span> kg
+        <p className='text-lg w-[150px]'>
+          <span className='font-bold text-2xl text-primary transition duration-200'>{latestWeight.weight} </span> kg
           <span className='block text-sm text-gray-500'> den {latestWeight.date}</span>
-          <span className='mt-4 hidden group-hover:block text-sm text-primary font-bold'> Lägg till ny vikt</span>
+          <span className='mt-4 hidden group-hover:block text-md text-primary font-bold'> Register weight </span>
         </p>
       ) : (
         <p className='text-xl text-gray-500'>No weight data available</p>

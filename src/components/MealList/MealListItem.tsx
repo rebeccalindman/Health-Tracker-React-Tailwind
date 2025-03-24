@@ -29,7 +29,7 @@ const MealListItem = ({ meal, onEdit, onDelete }: MealListItemProps) => {
   );
 
   return (
-    <details className="relative bg-white p-4" open={showDetails}>
+    <details className="relative bg-white p-4 border-b-1 border-secondary" open={showDetails}>
       <summary
         onClick={toggleDetails}
         className="cursor-pointer flex flex-col gap-2 relative"
@@ -52,15 +52,15 @@ const MealListItem = ({ meal, onEdit, onDelete }: MealListItemProps) => {
         {renderDetail("Category", meal.category, true)}
       </div>
 
-      <div className="flex justify-center gap-4 mt-4">
+      <div className="flex gap-4 mt-4 justify-center">
         {onEdit && (
           <Button size="sm" onClick={(e: React.MouseEvent<HTMLButtonElement>) => { e.stopPropagation(); onEdit(meal); }}>
-            <Edit className="h-4 w-4 mr-2" /> Edit
+            <Edit className="h-4 w-4" /> Edit
           </Button>
         )}
         {onDelete && (
           <Button size="sm" variant="destructive" onClick={handleDelete}>
-            <Trash className="h-4 w-4 mr-2" /> Delete
+            <Trash className="h-4 w-4" /> Delete
           </Button>
         )}
       </div>

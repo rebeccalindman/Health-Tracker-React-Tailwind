@@ -29,12 +29,7 @@ const Dashboard = ({}: DashboardProps) => {
               <CurrentWeight />
             </div>
           )}
-
-        </div>
-
-        {/* Right Column (on larger screens), but moves under on smaller screens */}
-        <div className="md:col-span-1 flex flex-col gap-4">
-          <TodaysMeals />
+          
           <div className='card'>
             <h2 className='text-center'>Weight History</h2>
             <WeightChart />
@@ -43,6 +38,11 @@ const Dashboard = ({}: DashboardProps) => {
               Edit Weight History
             </Button>
           </div>
+        </div>
+
+        {/* Right Column (on larger screens), but moves under on smaller screens */}
+        <div className="md:col-span-1 flex flex-col gap-4">
+          <TodaysMeals />
         </div>
       </div>
     </>

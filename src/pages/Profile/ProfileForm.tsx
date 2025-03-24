@@ -50,7 +50,7 @@ const ProfileForm = () => {
 
   const profileFields: InputFieldProps[] = [
     {label: "Name", name: "userName", type: "text", required: true, className: "md:col-span-2" },
-    { label: "Gender", name: "gender", type: "select", required: true, options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" ,},{ value: "other", label: "Other"}], className: "md:col-span-1" },
+    { label: "Gender", name: "gender", type: "select", required: true, options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" ,}], className: "md:col-span-1" },
     { label: "Birth Date", name: "birthDate", type: "date", required: false, className: "md:col-span-2" },
     {
       label: "Age",

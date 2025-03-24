@@ -28,7 +28,7 @@ const KcalStatus = () => {
 
   return (
     <section className='flex flex-col items-center'>
-      <Highlighted>
+      <Highlighted className="p-4 md:p-8">
       <p className='font-bold text-3xl'>{Math.round(remainingKcal)}</p>
       <p className='text-lg'>kcal left today</p>
       </Highlighted>

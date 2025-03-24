@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button } from "../components/ui/button";
+import { Button } from "../ui/button";
 import { Edit, Delete, X, Save } from "lucide-react";
-import { editWeight, removeWeight } from "../redux/slices/weightSlice";
-import { Weight } from "../types/weight";
+import { editWeight, removeWeight } from "../../redux/slices/weightSlice";
+import { Weight } from "../../types/weight";
 
 type WeightListItemProps = {
   weightData: Weight;
@@ -34,7 +34,7 @@ const WeightListItem: React.FC<WeightListItemProps> = ({ weightData }) => {
 
   return (
     <>
-      <div className="border-b-1 p-2 flex gap-6 items-center justify-center">
+      <div className="border-b-1 border-secondary p-2 flex gap-6 items-center justify-center">
         <p className="text-md text-gray-500 w-fit text-nowrap">{weightData.date}</p>
         <p className="text-lg font-bold flex items-center text-blue-800 w-full">
           {weightData.weight}

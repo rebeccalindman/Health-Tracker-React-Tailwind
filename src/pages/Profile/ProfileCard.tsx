@@ -40,7 +40,7 @@ const ProfileCard = () => {
         {sections.map((section) => (
           <div key={section.title} className="rounded">
             <h3 className="text-lg font-semibold">{section.title}</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-2">
+            <div className="grid grid-cols-2 gap-4 px-2 max-w-[400px] self-center">
               {section.keys.map((key) => (
                 <div key={key} className="flex flex-col text-center md:text-left">
                   <span className="py-1 text-lg md:text-md">{profileLabels[key as keyof Profile]}</span>

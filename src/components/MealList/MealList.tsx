@@ -19,11 +19,11 @@ const MealList = ({ meals = [], onEdit }: MealListProps) => {
 
   return (
     <div className="card w-full text-center md:text-right">
-      <h2 className="text-2xl font-bold mb-4 text-center md:text-left text-primary">Logged Meals</h2>
+      <h2 className="text-2xl font-bold text-center md:text-left text-primary">Logged Meals</h2>
       {sortedMeals.length > 0 ? (
-        <div className="flex flex-wrap justify-center items-center -mx-2 gap-2 w-full text-center md:text-left">
+        <div className="flex flex-wrap justify-center items-center gap-2 w-full text-center md:text-left">
           {sortedMeals.map((meal, index) => (
-            <div key={index} className="w-full px-2 mb-4">
+            <div key={index} className="w-full">
               <MealListItem
                 meal={meal}
                 /* editButton={1} */
