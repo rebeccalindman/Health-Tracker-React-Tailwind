@@ -32,15 +32,19 @@ import {
           const key = `${year}-${String(monthIndex + 1).padStart(2, "0")}` // e.g., 2025-03
       
           const existing = acc.find((item) => item.key === key)
+
+          const weight = Number(entry.weight) 
+          if (isNaN(weight)) return acc // skip invalid weight entries
+
       
           if (existing) {
-            existing.weights.push(entry.weight)
+            existing.weights.push(Number(entry.weight))
           } else {
             acc.push({
               key,
               month,
               year,
-              weights: [entry.weight],
+              weights: [weight],
               monthIndex,
             })
           }
@@ -51,7 +55,10 @@ import {
         return grouped
           .map((item) => ({
             month: `${item.month} ${item.year}`, // e.g., "March 2025"
-            weight: item.weights.reduce((sum, w) => sum + w, 0) / item.weights.length,
+            weight:
+                item.weights.length > 0
+                    ? item.weights.reduce((sum, w) => sum + w, 0) / item.weights.length
+                    : 0,
             sortValue: item.year * 12 + item.monthIndex,
           }))
           .sort((a, b) => a.sortValue - b.sortValue)
@@ -59,32 +66,35 @@ import {
       
 
     return (
-      <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-        <BarChart accessibilityLayer data={chartData}>
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="month"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) => value.slice(0, 3)}
-          />
-          <ChartTooltip
-            content={({ payload }) => {
-              if (!payload?.length) return null
-              const data = payload[0].payload
-              return (
-                <div className="rounded-md border bg-background p-2 text-sm text-left shadow-sm">
-                  <div className="font-medium text-muted-foreground">Date: {data.month}</div>
-                  <div className="font-medium text-muted-foreground">Weight: {data.weight.toFixed(2)} kg</div>
-                </div>
-              )
-            }}
-          />
-          <ChartLegend />
-          <Bar dataKey="weight" fill={chartConfig.weight.color} radius={4} />
-        </BarChart>
-      </ChartContainer>
+        <>
+            <p>Monthly average weight.</p>
+        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+            <BarChart accessibilityLayer data={chartData}>
+            <CartesianGrid vertical={false} />
+            <XAxis
+                dataKey="month"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 3)}
+            />
+            <ChartTooltip
+                content={({ payload }) => {
+                if (!payload?.length) return null
+                const data = payload[0].payload
+                return (
+                    <div className="rounded-md border bg-background p-2 text-sm text-left shadow-sm">
+                    <div className="font-medium text-muted-foreground">Date: {data.month}</div>
+                    <div className="font-medium text-muted-foreground">Weight: {data.weight.toFixed(2)} kg</div>
+                    </div>
+                )
+                }}
+            />
+            <ChartLegend />
+            <Bar dataKey="weight" fill={chartConfig.weight.color} radius={4} />
+            </BarChart>
+        </ChartContainer>
+      </>
     )
   }
 

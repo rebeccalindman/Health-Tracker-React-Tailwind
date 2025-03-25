@@ -18,7 +18,7 @@ const TodaysMeals = () => {
       <p className='text-sm text-gray-500'>{todaysDate}</p>
       {todaysMeals.length === 0 && <p className='text-sm text-gray-500 card'>Inga måltider registrerade idag.</p>}
 
-      <Button onClick={() => { window.location.href = '/mealLog' }}>
+      <Button className='w-fit self-center' onClick={() => { window.location.href = '/mealLog' }}>
         <PlusCircle className="inline-block" />
         Add a meal
       </Button>

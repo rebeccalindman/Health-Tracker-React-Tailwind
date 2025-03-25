@@ -7,7 +7,7 @@ import { InputFieldProps } from "../../components/Form/InputField";
 import { calculateTDEE } from "../../utils/tdeeCalculator";
 import { ProfileFormData } from "../../types/profile";
 import { RootState } from "../../redux/store";
-import { calculateAge } from "../../utils/dateUtils"; // ✅ Import the utility function
+import { calculateAge } from "../../utils/dateUtils";
 
 const ProfileForm = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const ProfileForm = () => {
   const { gender, userName, height, age, activityLevel, goal, birthDate } = useSelector(
     (state: RootState) => state.profile
   );
-  
+
   const weightHistory = useSelector((state: RootState) => state.weight.weightHistory);
   const latestWeight = weightHistory.length > 0 ? weightHistory[weightHistory.length - 1].weight : null;
 
@@ -49,8 +49,8 @@ const ProfileForm = () => {
   ];
 
   const profileFields: InputFieldProps[] = [
-    {label: "Name", name: "userName", type: "text", required: true, className: "md:col-span-2" },
-    { label: "Gender", name: "gender", type: "select", required: true, options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" ,}], className: "md:col-span-1" },
+    { label: "Name", name: "userName", type: "text", required: true, className: "md:col-span-2" },
+    { label: "Gender", name: "gender", type: "select", required: true, options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" }], className: "md:col-span-1" },
     { label: "Birth Date", name: "birthDate", type: "date", required: false, className: "md:col-span-2" },
     {
       label: "Age",
@@ -62,7 +62,7 @@ const ProfileForm = () => {
       className: "md:col-span-1",
     },
     { label: "Weight", name: "weight", type: "number", required: true, unit: "kg" },
-    { label: "Height", name: "height", type: "number", required: true, unit: "cm"  },
+    { label: "Height", name: "height", type: "number", required: true, unit: "cm" },
     { label: "Activity Level", name: "activityLevel", type: "select", required: true, options: activityLevelOptions, className: "md:col-span-2" },
     { label: "Goal", name: "goal", type: "select", required: true, options: goalOptions, className: "md:col-span-2" },
   ];
@@ -70,7 +70,7 @@ const ProfileForm = () => {
   const profileFieldGroups = [
     {
       label: "Personal Information",
-      fields: profileFields.filter((field) => ["userName","gender", "birthDate", "age"].includes(field.name)),
+      fields: profileFields.filter((field) => ["userName", "gender", "birthDate", "age"].includes(field.name)),
     },
     {
       label: "Health",
@@ -111,6 +111,15 @@ const ProfileForm = () => {
     setSuccessMessage(null);
   };
 
+  const validationRules = {
+    age: (value: number | null) =>
+      value !== null && value <= 0 ? "Age must be above 0" : null,
+    weight: (value: number | null) =>
+      value !== null && value <= 0 ? "Weight must be above 0" : null,
+    height: (value: number | null) =>
+      value !== null && value <= 0 ? "Height must be above 0" : null,
+  }
+
   const handleSubmit = () => {
     if (previewTDEE !== null) {
       dispatch(setTDEE(previewTDEE));
@@ -135,10 +144,8 @@ const ProfileForm = () => {
   return (
     <>
       <div className="card">
-
-        {/* TDEE preview */}
         <div className="text-center bg-accent/10 rounded p-2">
-        <p className="text-cente">Estimated daily kcal</p>
+          <p className="text-center">Estimated daily kcal</p>
           <p className="text-accent font-bold text-xl">{previewTDEE !== null ? `${Math.round(previewTDEE)} kcal` : "Enter values to calculate"}</p>
         </div>
 
@@ -149,9 +156,8 @@ const ProfileForm = () => {
           onChange={handleChange}
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-4 gap-4"
+          validationRules={validationRules}
         />
-
-      
 
         {successMessage && (
           <div className="text-green-600 font-medium mt-2">{successMessage}</div>
@@ -162,3 +168,4 @@ const ProfileForm = () => {
 };
 
 export default ProfileForm;
+

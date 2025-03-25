@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import InputField from "./InputField";
 import { InputFieldProps } from "./InputField";
 import FieldGroup from "./FieldGroup";
+import { X } from "lucide-react";
 
 // Props for the reusable Form component
 type FormProps = {
@@ -17,6 +18,9 @@ type FormProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
   isEditing?: boolean;
+  validationRules?: {
+    [key: string]: (value: any) => string | null;
+  };
 };
 
 const Form: React.FC<FormProps> = ({
@@ -26,6 +30,7 @@ const Form: React.FC<FormProps> = ({
   fieldGroups = [],
   onChange,
   onSubmit,
+  validationRules,
 }) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -39,17 +44,26 @@ const Form: React.FC<FormProps> = ({
       const isEmpty =
         value === undefined ||
         value === null ||
+        (typeof value === "string" && value.trim() === "") ||
         value === "" ||
         (typeof value === "number" && isNaN(value));
   
       if (field.required && isEmpty) {
         newErrors[field.name] = `${field.label || field.name} is required`;
       }
+  
+      if (validationRules && validationRules[field.name]) {
+        const customError = validationRules[field.name](value);
+        if (customError) {
+          newErrors[field.name] = customError;
+        }
+      }
     });
   
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  
   
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -123,12 +137,19 @@ const Form: React.FC<FormProps> = ({
         </div>
       ))}
 
-    <Button className="col-span-4" type="submit" size="lg" disabled={!isFormValid}>
+    <Button className="col-span-4 w-fit justify-self-center" type="submit" size="lg" disabled={!isFormValid}>
       {isEditing ? "Update" : "Save"}
     </Button>
+    {isSubmitted && Object.keys(errors).length > 0 && (
+      <div className="col-span-4 justify-self-center text-sm text-red-600 mt-2 text-center flex items-center">
+        <X className="h-5 w-5 mr-2" />
+        Some fields are missing or contain errors. Please check and try again.
+      </div>
+    )}
     </form>
   );
 };
 
 export default Form;
+
 

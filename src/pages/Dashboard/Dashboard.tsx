@@ -21,7 +21,7 @@ const Dashboard = ({}: DashboardProps) => {
         {/* Left Column: Stacked vertically */}
         <div className="flex flex-col gap-4">
           <WelcomeProfile />
-          
+          <KcalStatus />
           {showAddWeight ? (
             <AddWeight onSubmit={() => setShowAddWeight(false)} />
           ) : (
@@ -42,7 +42,6 @@ const Dashboard = ({}: DashboardProps) => {
 
         {/* Right Column (on larger screens), but moves under on smaller screens */}
         <div className="md:col-span-1 flex flex-col gap-4">
-          <KcalStatus />
           <TodaysMeals />
         </div>
       </div>

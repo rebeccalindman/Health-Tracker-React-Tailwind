@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { Menu, X, LayoutDashboard, User, Notebook } from "lucide-react";
+import { Menu, X, LayoutDashboard, User, Notebook, Calculator } from "lucide-react";
 
 const menuItems = [
   { path: "/", label: "Dashboard", icon: <LayoutDashboard className="inline self-center h-full mr-2" /> },
   { path: "/profile", label: "Profile", icon: <User className="inline self-center h-full mr-2" /> },
   { path: "/mealLog", label: "Meal Log", icon: <Notebook className="inline self-center h-full mr-2" /> },
+  { path: "/macros", label: "Macros", icon: <Calculator className="inline self-center h-full mr-2" /> },
 ];
 
 const Navbar = () => {
@@ -42,7 +43,7 @@ const Navbar = () => {
             <NavLink
               to={path}
               className={({ isActive }) =>
-                `p-4 hover:bg-accent hover:text-accent-foreground rounded-md flex items-center transition-all duration-200 ${
+                `p-4 hover:bg-accent hover:text-accent-foreground rounded-md flex items-center transition-all duration-200 text-nowrap${
                   isActive ? "bg-primary text-white font-bold" : ""
                 }`
               }
