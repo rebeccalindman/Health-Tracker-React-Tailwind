@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Suspense, lazy } from 'react';
-import App from "./App";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import NotFound from "./pages/NotFound/NotFound";
+import App from "../App";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import NotFound from "../pages/NotFound/NotFound";
 
 // Ladda komponenter asynkront
-const MealLog = lazy(() => import("./pages/MealLog/MealLogView"));
-const ProfileForm = lazy(() => import("./pages/Profile/ProfileForm"));
-const ProfileView = lazy(() => import("./pages/Profile/ProfileView"));
+const MealLog = lazy(() => import("../pages/MealLog/MealLogView"));
+const ProfileForm = lazy(() => import("../pages/Profile/ProfileForm"));
+const ProfileView = lazy(() => import("../pages/Profile/ProfileView"));
 
 const router = createBrowserRouter([
   {

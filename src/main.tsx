@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client"; // ✅ Import createRoot correctly
-import router from "./routes.jsx";
+import router from "./router/routes.js";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";

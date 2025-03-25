@@ -6,7 +6,7 @@ import FieldGroup from "./FieldGroup";
 import { X } from "lucide-react";
 
 // Props for the reusable Form component
-type FormProps = {
+export type FormProps = {
   initialData?: { [key: string]: any };
   fields: InputFieldProps[];
   fieldGroups?: {
