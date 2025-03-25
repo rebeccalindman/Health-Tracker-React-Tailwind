@@ -1,11 +1,13 @@
 import { Profile } from "../types/profile"
 import { Weight } from "../types/weight"
 import { Meal } from "../types/meal"
+import { Macros } from "../types/macros" //
 
 const STORAGE_KEYS = {
   profile: "profile",
   mealLogs: "mealLogs",
   weightHistory: "weightHistory",
+  macros: "macros",
 }
 
 // Generic load function
@@ -64,4 +66,20 @@ export const loadWeightHistory = (): Weight[] => {
 
 export const saveWeightHistory = (history: Weight[]) => {
   save(STORAGE_KEYS.weightHistory, history)
+}
+
+export const loadMacros = (): Macros => {
+  return load<Macros>(STORAGE_KEYS.macros, {
+    dailyCalories: 2000,
+    proteinPercentage: 15,
+    carbohydratePercentage: 55,
+    fatPercentage: 30,
+    protein: null,
+    carbohydrate: null,
+    fat: null,
+  })
+}
+
+export const saveMacros = (macros: Macros) => {
+  save(STORAGE_KEYS.macros, macros)
 }

@@ -3,10 +3,11 @@ import { Suspense, lazy } from 'react';
 import App from "../App";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import NotFound from "../pages/NotFound/NotFound";
+import MacrosView from "@/pages/Macros/MacrosView";
 
 // Ladda komponenter asynkront
 const MealLog = lazy(() => import("../pages/MealLog/MealLogView"));
-const ProfileForm = lazy(() => import("../pages/Profile/ProfileForm"));
+/* const ProfileForm = lazy(() => import("../pages/Profile/ProfileForm")); */
 const ProfileView = lazy(() => import("../pages/Profile/ProfileView"));
 
 const router = createBrowserRouter([
@@ -29,6 +30,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<div className="p-4 text-2xl text-accent h-screen">Loading...</div>}>
             <ProfileView />
+          </Suspense>
+        ),
+      },
+      {
+        path: "macros",
+        element: (
+          <Suspense fallback={<div className="p-4 text-2xl text-accent h-screen">Loading...</div>}>
+            <MacrosView />
           </Suspense>
         ),
       },
