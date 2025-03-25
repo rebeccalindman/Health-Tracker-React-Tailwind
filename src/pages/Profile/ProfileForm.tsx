@@ -32,7 +32,7 @@ const ProfileForm = () => {
 
   const [previewTDEE, setPreviewTDEE] = useState<number | null>(null);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+ /*  const [successMessage, setSuccessMessage] = useState<string | null>(null); */
 
   const activityLevelOptions = [
     { value: "sedentary", label: "Sedentary (Little to no exercise)" },
@@ -108,7 +108,7 @@ const ProfileForm = () => {
     });
 
     setUnsavedChanges(true);
-    setSuccessMessage(null);
+/*     setSuccessMessage(null); */
   };
 
   const validationRules = {
@@ -136,9 +136,9 @@ const ProfileForm = () => {
     );
 
     setUnsavedChanges(false);
-    setSuccessMessage("Profile updated successfully ✅");
+/*     setSuccessMessage("Profile updated successfully ✅"); */
 
-    setTimeout(() => setSuccessMessage(null), 3000);
+/*     setTimeout(() => setSuccessMessage(null), 3000); */
   };
 
   return (
@@ -159,9 +159,9 @@ const ProfileForm = () => {
           validationRules={validationRules}
         />
 
-        {successMessage && (
+       {/*  {successMessage && (
           <div className="text-green-600 font-medium mt-2">{successMessage}</div>
-        )}
+        )} */}
       </div>
     </>
   );

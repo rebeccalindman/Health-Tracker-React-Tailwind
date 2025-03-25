@@ -61,6 +61,28 @@ const MacrosForm = () => {
       formData?.carbohydratePercentage,
       formData?.fatPercentage,
     ])
+
+    const percentageTotal =
+    (formData?.proteinPercentage ?? 0) +
+    (formData?.carbohydratePercentage ?? 0) +
+    (formData?.fatPercentage ?? 0)
+
+    const percentageTotalFooter = (
+        <div className="col-span-full text-sm text-muted-foreground text-right pr-2 mt-1">
+          Total:{" "}
+          <span
+            className={
+              percentageTotal === 100
+                ? "text-green-600 font-semibold"
+                : "text-red-600 font-semibold"
+            }
+          >
+            {percentageTotal}%
+          </span>{" "}
+          of 100%
+        </div>
+      )
+      
   
     // ✅ Form input fields
     const inputFields: InputFieldProps[] = [
@@ -77,14 +99,20 @@ const MacrosForm = () => {
 
     const inputFieldGroups = [
         {
-            label: "Percentages of daily caloric intake per macronutrient",
-            fields: inputFields.filter((field) => ["carbohydratePercentage", "proteinPercentage", "fatPercentage"].includes(field.name)), //["carbs", "protein", "fat"],
+          label: "Percentages of daily caloric intake per macronutrient",
+          fields: inputFields.filter((field) =>
+            ["carbohydratePercentage", "proteinPercentage", "fatPercentage"].includes(field.name)
+          ),
+          footer: percentageTotalFooter, // ✅ inject here
         },
         {
-            label: "Calories from each macronutrient",
-            fields: inputFields.filter((field) => ["carbohydrate", "protein", "fat"].includes(field.name)),
-        }
-    ]
+          label: "Calories from each macronutrient",
+          fields: inputFields.filter((field) =>
+            ["carbohydrate", "protein", "fat"].includes(field.name)
+          ),
+        },
+      ]
+      
 
     const validateTotalPercentage = (
         protein: number | null,
@@ -92,7 +120,7 @@ const MacrosForm = () => {
         fat: number | null
       ): string | null => {
         const total = (protein ?? 0) + (carbs ?? 0) + (fat ?? 0);
-        return total !== 100 ? `Total percentage must equal 100% (currently ${total}%)` : null;
+        return total !== 100 ? `Tot. % must be 100 (now ${total})` : null;
       }
 
       const validationRules = {
@@ -135,6 +163,8 @@ const MacrosForm = () => {
           console.log("Submitted macros:", formData);
         }
       };
+
+
       
   return (
     <>

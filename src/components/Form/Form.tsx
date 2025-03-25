@@ -13,6 +13,7 @@ export type FormProps = {
     label?: string;
     fields: InputFieldProps[];
     className?: string;
+    footer?: React.ReactNode;
   }[];
   className?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
@@ -34,24 +35,25 @@ const Form: React.FC<FormProps> = ({
 }) => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const validateFields = () => {
     const newErrors: { [key: string]: string } = {};
-  
+
     fields.forEach((field) => {
       const value = initialData?.[field.name];
-  
+
       const isEmpty =
         value === undefined ||
         value === null ||
         (typeof value === "string" && value.trim() === "") ||
         value === "" ||
         (typeof value === "number" && isNaN(value));
-  
+
       if (field.required && isEmpty) {
         newErrors[field.name] = `${field.label || field.name} is required`;
       }
-  
+
       if (validationRules && validationRules[field.name]) {
         const customError = validationRules[field.name](value);
         if (customError) {
@@ -59,20 +61,33 @@ const Form: React.FC<FormProps> = ({
         }
       }
     });
-  
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
-  
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isValid = validateFields();
     setIsSubmitted(true);
+
     if (isValid) {
-      onSubmit(e);
+      const result = onSubmit(e); // in case it's async
+      if (result instanceof Promise) {
+        result.then(() => {
+          setSuccessMessage("Saved successfully ✅");
+        });
+      } else {
+        setSuccessMessage("Saved successfully ✅");
+      }
+    
       setErrors({});
       setIsSubmitted(false);
+    
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 3000);
     }
   };
 
@@ -104,7 +119,7 @@ const Form: React.FC<FormProps> = ({
       onSubmit={handleSubmit}
       noValidate
     >
-      {/* Render non-grouped fields */}
+      {/* Non-grouped fields */}
       {fields
         .filter(
           (field) => !fieldGroups.some((group) => group.fields.some((f) => f.name === field.name))
@@ -121,35 +136,51 @@ const Form: React.FC<FormProps> = ({
           />
         ))}
 
-      {/* Render grouped fields using FieldGroup */}
-      {fieldGroups.map(({ label, fields, className }) => (
-        <div key={label || fields.map((f) => f.name).join("_")} className={`rounded ${className || "col-span-full"}`}>
-          {label && <h3 className="block font-semibold mb-1">{label}</h3>}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-8 md:px-4 py-2">
-            <FieldGroup
-              fields={fields}
-              values={initialData || {}}
-              errors={errors}
-              onChange={handleChange}
-              isSubmitted={isSubmitted}
-            />
-          </div>
-        </div>
-      ))}
+      {/* Grouped fields */}
+      {fieldGroups.map((group) => {
+        const { label, fields, className, footer } = group;
 
-    <Button className="col-span-4 w-fit justify-self-center" type="submit" size="lg" disabled={!isFormValid}>
-      {isEditing ? "Update" : "Save"}
-    </Button>
-    {isSubmitted && Object.keys(errors).length > 0 && (
-      <div className="col-span-4 justify-self-center text-sm text-red-600 mt-2 text-center flex items-center">
-        <X className="h-5 w-5 mr-2" />
-        Some fields are missing or contain errors. Please check and try again.
-      </div>
-    )}
+        return (
+          <div
+            key={label || fields.map((f) => f.name).join("_")}
+            className={`rounded ${className || "col-span-full"}`}
+          >
+            {label && <h3 className="block font-semibold mb-1">{label}</h3>}
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-8 md:px-4 py-2">
+              <FieldGroup
+                fields={fields}
+                values={initialData || {}}
+                errors={errors}
+                onChange={handleChange}
+                isSubmitted={isSubmitted}
+              />
+              {footer && <div className="col-span-full flex justify-center md:justify-start">{footer}</div>}
+            </div>
+          </div>
+        );
+      })}
+
+      {/* Submit Button */}
+      <Button className="col-span-4 w-fit justify-self-center" type="submit" size="lg" disabled={!isFormValid}>
+        {isEditing ? "Update" : "Save"}
+      </Button>
+     {/* Success Message */}
+      {successMessage && (
+        <div className="col-span-4 justify-self-center text-sm text-green-600 mt-2 text-center">
+          {successMessage}
+        </div>
+      )}
+
+      {/* Submit Error Message */}
+      {isSubmitted && Object.keys(errors).length > 0 && (
+        <div className="col-span-4 justify-self-center text-sm text-red-600 mt-2 text-center flex items-center">
+          <X className="h-5 w-5 mr-2" />
+          Some fields are missing or contain errors. Please check and try again.
+        </div>
+      )}
     </form>
   );
 };
 
 export default Form;
-
-
