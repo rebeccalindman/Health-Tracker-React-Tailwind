@@ -28,6 +28,7 @@ const ProteinPieChart = () => {
 
   return (
     <>
+    <h2>Daily protein progress</h2>
       <div className="relative flex flex-col items-center w-full max-w-xs mx-auto">
         {/* Central text overlay */}
         <div className="absolute inset-0 flex items-center justify-center flex-col z-10 pointer-events-none">
