@@ -52,10 +52,9 @@ const Dashboard = ({}: DashboardProps) => {
           <TodaysMeals />
 
           <div className='card'>
-            <h2>Daily macros</h2>
+            <h2 className='w-full text-center'>Daily macros</h2>
             <MacrosChart/>
           </div>
-          
         </div>
       </div>
     </>
