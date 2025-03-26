@@ -27,10 +27,7 @@ const Dashboard = ({}: DashboardProps) => {
           <div className='card'>
             <ProteinPieChart/>
           </div>
-          <div className='card'>
-            <h2>Macronutrient intake per day</h2>
-            <MacrosChart/>
-          </div>
+          
 
           {showAddWeight ? (
             <AddWeight onSubmit={() => setShowAddWeight(false)} />
@@ -53,6 +50,12 @@ const Dashboard = ({}: DashboardProps) => {
         {/* Right Column (on larger screens), but moves under on smaller screens */}
         <div className="md:col-span-1 flex flex-col gap-4">
           <TodaysMeals />
+
+          <div className='card'>
+            <h2>Daily macros</h2>
+            <MacrosChart/>
+          </div>
+          
         </div>
       </div>
     </>

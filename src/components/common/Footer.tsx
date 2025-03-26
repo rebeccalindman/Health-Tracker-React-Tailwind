@@ -6,15 +6,15 @@ const Footer = () => {
       <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center px-4">
         
         <p className="text-s text-gray-200 p-2">
-          &copy; {new Date().getFullYear()} HealthTracker. Alla rättigheter förbehållna.
+          &copy; {new Date().getFullYear()} BodyData. All rights reserved.
         </p>
 
         <nav className="flex space-x-6 mt-3 md:mt-0 p-2">
           <a href="/privacy-policy" className="text-s text-gray-200 hover:text-white transition-colors duration-300">
-            Integritetspolicy
+            Privacy policy
           </a>
           <a href="/terms" className="text-m text-gray-200 hover:text-white transition-colors duration-300">
-            Användarvillkor
+            User Terms
           </a>
         </nav>
 

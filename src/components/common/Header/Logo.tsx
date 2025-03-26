@@ -6,7 +6,7 @@ const Logo: React.FC<LogoProps> = () => {
       <img
         className="h-full w-full object-contain"
         src="src/assets/Icon.webp"
-        alt="Healthtracker logo"
+        alt="BodyData logo"
       />
     </figure>
   );
