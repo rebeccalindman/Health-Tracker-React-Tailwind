@@ -69,6 +69,15 @@ const MacrosChart = () => {
       : []
   }, [mealLogs, selectedDate, protein, carbohydrate, fat])
 
+  const legendLabels: Record<string, string> = {
+    protein: "Protein",
+    remainingProtein: "Remaining Protein",
+    carbohydrate: "Carbs",
+    remainingCarbs: "Remaining Carbs",
+    fat: "Fat",
+    remainingFat: "Remaining Fat",
+  }
+
   return (
     <div className="w-full">
       {/* Navigation */}
@@ -115,8 +124,23 @@ const MacrosChart = () => {
                 )
               }}
             />
-            <ChartLegend />
-
+            <ChartLegend
+              content={({ payload }) => {
+                return (
+                  <div className="flex flex-wrap gap-4 px-2 pt-2">
+                    {payload?.map((entry: any) => (
+                      <div key={entry.dataKey} className="flex items-center gap-2 text-sm">
+                        <div
+                          className="h-3 w-3 rounded-sm"
+                          style={{ backgroundColor: entry.color }}
+                        />
+                        <span>{legendLabels[entry.dataKey] || entry.dataKey}</span>
+                      </div>
+                    ))}
+                  </div>
+                )
+              }}
+            />
             <Bar dataKey="protein" stackId="a" fill={chartConfig.protein.color} />
             <Bar dataKey="remainingProtein" stackId="a" fill={chartConfig.remainingProtein.color} />
 
