@@ -120,7 +120,7 @@ const MacrosForm = () => {
         fat: number | null
       ): string | null => {
         const total = (protein ?? 0) + (carbs ?? 0) + (fat ?? 0);
-        return total !== 100 ? `Tot. % must be 100 (now ${total})` : null;
+        return total !== 100 ? `Check total %` : null;
       }
 
       const validationRules = {

@@ -28,6 +28,7 @@ const Dashboard = ({}: DashboardProps) => {
             <ProteinPieChart/>
           </div>
           <div className='card'>
+            <h2>Macronutrient intake per day</h2>
             <MacrosChart/>
           </div>
 

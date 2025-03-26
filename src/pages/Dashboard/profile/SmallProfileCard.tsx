@@ -31,7 +31,7 @@ const SmallProfileCard = () => {
           </div>
         ))}
       </div>
-        <Button variant="default" aria-label="Edit profile" className="absolute top-8 right-8 w-fit self-center block md:hidden group-hover:block" size={"sm"}><Edit/></Button>
+        <Button variant="default" aria-label="Edit profile" className="absolute top-8 right-8 w-fit self-center block md:hidden group-hover:block" onClick={() => { window.location.href = '/profile?edit=true' }} size={"sm"}><Edit/></Button>
     </div>
   );
 };

@@ -148,9 +148,13 @@ All key action buttons include icons alongside text to support:
   - ✅ Displays red outlines and error messages for all invalid fields
   - ✅ Errors disappear instantly once fixed
 
-- 🧩 Updated Form Validation UX -- Again -- (Sunday March 23)
+- 🧩 Updated Form Validation UX -- Again -- 
    - ✅ Submit button is disabled until all required fields are filled
    - ✅ Icons added to key action buttons for clarity (e.g., for color-blind users)
    - ✅ noValidate disables native browser validation popups
    - ✅ Real-time input validation improves user feedback without distractions
    - ✅ Success messages and TDEE preview offer instant visual confirmation
+
+- 🧩 Updated Edit feature in WeightListItem 
+   - The information container is swapped with a form element when clicking on the edit button
+   - Makes it more obvious which item is being edited, alternatively to scrolling to a shared form for adding or editing weight

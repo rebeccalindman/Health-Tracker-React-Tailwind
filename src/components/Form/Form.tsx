@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import InputField from "./InputField";
 import { InputFieldProps } from "./InputField";
 import FieldGroup from "./FieldGroup";
-import { X } from "lucide-react";
+import { SaveIcon, X } from "lucide-react";
 
 // Props for the reusable Form component
 export type FormProps = {
@@ -163,6 +163,7 @@ const Form: React.FC<FormProps> = ({
 
       {/* Submit Button */}
       <Button className="col-span-4 w-fit justify-self-center" type="submit" size="lg" disabled={!isFormValid}>
+        <SaveIcon/>
         {isEditing ? "Update" : "Save"}
       </Button>
      {/* Success Message */}
