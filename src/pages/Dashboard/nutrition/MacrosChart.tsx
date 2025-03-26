@@ -1,95 +1,135 @@
 import {
-    ChartContainer,
-    type ChartConfig,
-    ChartTooltip,
-    ChartLegend,
-  } from "@/components/ui/chart"
-  import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-  import { useSelector } from "react-redux"
-  import { RootState } from "../../../redux/store" // Adjust this path as needed
-  import { useMemo } from "react"
-  
+  ChartContainer,
+  ChartTooltip,
+  ChartLegend,
+  type ChartConfig,
+} from "@/components/ui/chart"
+import { BarChart, Bar, XAxis, CartesianGrid } from "recharts"
+import { useSelector } from "react-redux"
+import { RootState } from "@/redux/store"
+import { useMemo, useState } from "react"
+import { addDays, format, isSameDay, subDays } from "date-fns"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
-  const chartConfig = {
-    date: {
-      label: "Date",
-      color: "hsl(var(--chart-1))",
-    },
-    weight: {
-      label: "Weight",
-      color: "hsl(var(--chart-2))",
-    },
-  } satisfies ChartConfig
+const chartConfig = {
+  protein: {
+    label: "Protein",
+    color: "hsl(var(--chart-1))",
+  },
+  remainingProtein: {
+    label: "Protein left",
+    color: "hsl(var(--chart-2))",
+  },
+  carbohydrate: {
+    label: "Carbs",
+    color: "hsl(var(--chart-3))",
+  },
+  remainingCarbs: {
+    label: "Carbs left",
+    color: "hsl(var(--chart-4))",
+  },
+  fat: {
+    label: "Fat",
+    color: "hsl(var(--chart-5))",
+  },
+  remainingFat: {
+    label: "Fat left",
+    color: "hsl(var(--chart-6))",
+  },
+} satisfies ChartConfig
 
-  const MacrosChart = () => {
-    const { protein, carbohydrate, fat } = useSelector((state: RootState) => state.macros);
+const MacrosChart = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date())
+  const formattedDate = format(selectedDate, "yyyy-MM-dd")
 
-    const mealLogs = useSelector((state: RootState) => state.meals.mealLogs);
+  const mealLogs = useSelector((state: RootState) => state.meals.mealLogs)
+  const { protein, carbohydrate, fat } = useSelector((state: RootState) => state.macros)
 
+  const chartData = useMemo(() => {
+    const mealsForDate = mealLogs.filter((meal) =>
+      isSameDay(new Date(meal.date), selectedDate)
+    )
 
-    const chartData = useMemo(() => {
-      const groupedByDate = mealLogs.reduce((acc, meal) => {
-        const date = meal.date; // format: "YYYY-MM-DD"
-        if (!acc[date]) {
-          acc[date] = { date, protein: 0, carbohydrate: 0, fat: 0 };
-        }
-    
-        acc[date].protein += meal.protein || 0;
-        acc[date].carbohydrate += meal.carbohydrate || 0;
-        acc[date].fat += meal.fat || 0;
-    
-        return acc;
-      }, {} as Record<string, { date: string; protein: number; carbohydrate: number; fat: number }>);
-    
-      return Object.values(groupedByDate).map((entry) => ({
-        ...entry,
-        remainingProtein: Math.max((protein ?? 0) - entry.protein, 0),
-        remainingCarbs: Math.max((carbohydrate ?? 0) - entry.carbohydrate, 0),
-        remainingFat: Math.max((fat ?? 0) - entry.fat, 0),
-      }));
-    }, [mealLogs, protein, carbohydrate, fat]);
+    const totalProtein = mealsForDate.reduce((sum, m) => sum + (m.protein ?? 0), 0)
+    const totalCarbs = mealsForDate.reduce((sum, m) => sum + (m.carbohydrate ?? 0), 0)
+    const totalFat = mealsForDate.reduce((sum, m) => sum + (m.fat ?? 0), 0)
 
-    
+    return mealsForDate.length > 0
+      ? [
+          {
+            date: formattedDate,
+            protein: totalProtein,
+            remainingProtein: Math.max((protein ?? 0) - totalProtein, 0),
+            carbohydrate: totalCarbs,
+            remainingCarbs: Math.max((carbohydrate ?? 0) - totalCarbs, 0),
+            fat: totalFat,
+            remainingFat: Math.max((fat ?? 0) - totalFat, 0),
+          },
+        ]
+      : []
+  }, [mealLogs, selectedDate, protein, carbohydrate, fat])
 
-    return (
-        <>
-            <p>Monthly average weight.</p>
-        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-        <BarChart data={chartData}>
-            <XAxis dataKey="date" />
-            <CartesianGrid />
+  return (
+    <div className="w-full">
+      {/* Navigation */}
+      <div className="flex justify-between items-center mb-4">
+        <button
+          onClick={() => setSelectedDate((prev) => subDays(prev, 1))}
+          className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Previous
+        </button>
+        <p className="text-sm font-semibold">{formattedDate}</p>
+        <button
+          onClick={() => setSelectedDate((prev) => addDays(prev, 1))}
+          disabled={isSameDay(selectedDate, new Date())}
+          className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 disabled:opacity-40"
+        >
+          Next
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </div>
 
-            <ChartTooltip /* actual vs remaining */
+      {/* Chart or Fallback */}
+      {chartData.length === 0 ? (
+        <p className="text-muted-foreground text-sm">
+          No meals logged for {formattedDate}.
+        </p>
+      ) : (
+        <ChartContainer config={chartConfig} className="min-h-[240px] w-full">
+          <BarChart data={chartData}>
+            <CartesianGrid vertical={false} />
+            <XAxis dataKey="date" tickLine={false} tickMargin={10} axisLine={false} />
+            <ChartTooltip
               content={({ payload }) => {
-                if (!payload?.length) return null;
-                const data = payload[0].payload;
-
+                if (!payload?.length) return null
+                const data = payload[0].payload
                 return (
-                  <div className="p-2 text-sm rounded border bg-background shadow-sm">
+                  <div className="rounded-md border bg-background p-2 text-sm text-left shadow-sm">
                     <p className="font-semibold mb-1">Date: {data.date}</p>
                     <p>Protein: {data.protein}g / {protein}g</p>
                     <p>Carbs: {data.carbohydrate}g / {carbohydrate}g</p>
                     <p>Fat: {data.fat}g / {fat}g</p>
                   </div>
-                );
+                )
               }}
             />
-
             <ChartLegend />
-            
-            <Bar dataKey="protein" stackId="a" fill="#4ade80" />           {/* eaten */}
-            <Bar dataKey="remainingProtein" stackId="a" fill="#facc15" />  {/* left */}
 
-            <Bar dataKey="carbohydrate" stackId="b" fill="#60a5fa" />
-            <Bar dataKey="remainingCarbs" stackId="b" fill="#fde68a" />
+            <Bar dataKey="protein" stackId="a" fill={chartConfig.protein.color} />
+            <Bar dataKey="remainingProtein" stackId="a" fill={chartConfig.remainingProtein.color} />
 
-            <Bar dataKey="fat" stackId="c" fill="#f87171" />
-            <Bar dataKey="remainingFat" stackId="c" fill="#fcd34d" />
+            <Bar dataKey="carbohydrate" stackId="b" fill={chartConfig.carbohydrate.color} />
+            <Bar dataKey="remainingCarbs" stackId="b" fill={chartConfig.remainingCarbs.color} />
+
+            <Bar dataKey="fat" stackId="c" fill={chartConfig.fat.color} />
+            <Bar dataKey="remainingFat" stackId="c" fill={chartConfig.remainingFat.color} />
           </BarChart>
-
         </ChartContainer>
-      </>
-    )
-  }
+      )}
+    </div>
+  )
+}
 
-  export default MacrosChart;
+export default MacrosChart
