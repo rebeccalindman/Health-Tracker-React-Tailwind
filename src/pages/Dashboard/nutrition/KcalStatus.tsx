@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store.js';
-import { Meal } from '../../types/meal.js';
+import { RootState } from '../../../redux/store.js';
+import { Meal } from '../../../types/meal.js';
 import Highlighted from '@/components/Highlighted.js';
 
 const KcalStatus = () => {

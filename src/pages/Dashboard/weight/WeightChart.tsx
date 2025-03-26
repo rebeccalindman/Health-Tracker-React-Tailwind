@@ -6,7 +6,7 @@ import {
   } from "@/components/ui/chart"
   import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
   import { useSelector } from "react-redux"
-  import { RootState } from "../../redux/store" // Adjust this path as needed
+  import { RootState } from "../../../redux/store" // Adjust this path as needed
   import { useMemo } from "react"
 
   const chartConfig = {

@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Suspense, lazy } from 'react';
 import App from "../App";
-import Dashboard from "../pages/Dashboard/Dashboard";
+import DashboardView from "../pages/Dashboard/DashboardView";
 import NotFound from "../pages/NotFound/NotFound";
 import MacrosView from "@/pages/Macros/MacrosView";
 
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <DashboardView />,
       },
       {
         path: "mealLog",

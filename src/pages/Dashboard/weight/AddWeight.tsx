@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { addWeight } from "../../redux/slices/weightSlice"
-import { Button } from "../../components/ui/button"
+import { addWeight } from "../../../redux/slices/weightSlice"
+import { Button } from "../../../components/ui/button"
 
 const AddWeight = ({ onSubmit }: { onSubmit: () => void }) => {
   const dispatch = useDispatch()

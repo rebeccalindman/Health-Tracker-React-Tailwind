@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store.js';
-import { Weight } from '../../types/weight.js';
+import { RootState } from '../../../redux/store.js';
+import { Weight } from '../../../types/weight.js';
 
 const CurrentWeight: React.FC = () => {
   const weightEntries = useSelector((state: RootState) => state.weight.weightHistory);

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store.js"; // ✅ Import RootState
-import { capitalizeFirstLetter } from "../../utils/stringUtils";
-import { Profile } from "../../types/profile.js";
+import { RootState } from "../../../redux/store.js"; // ✅ Import RootState
+import { capitalizeFirstLetter } from "../../../utils/stringUtils.js";
+import { Profile } from "../../../types/profile.js";
 import { Button } from "@/components/ui/button.js";
 import { Edit } from "lucide-react";
 
@@ -31,7 +31,7 @@ const SmallProfileCard = () => {
           </div>
         ))}
       </div>
-        <Button variant="default" aria-label="Edit profile" className="absolute rounded-full top-8 right-8 w-fit self-center block md:hidden group-hover:block" size={"sm"}> <Edit/> </Button>
+        <Button variant="default" aria-label="Edit profile" className="absolute top-8 right-8 w-fit self-center block md:hidden group-hover:block" size={"sm"}><Edit/></Button>
     </div>
   );
 };

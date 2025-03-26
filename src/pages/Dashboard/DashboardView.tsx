@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import CurrentWeight from './CurrentWeight.js';
-import AddWeight from './AddWeight.js';
+import CurrentWeight from './weight/CurrentWeight.js';
+import AddWeight from './weight/AddWeight.js';
 import TodaysMeals from './TodaysMeals.js';
-import KcalStatus from './KcalStatus.js';
-import WelcomeProfile from './WelcomeProfile.js';
-import WeightChart from './WeightChart.js';
+import KcalStatus from './nutrition/KcalStatus.js';
+import WelcomeProfile from './profile/WelcomeProfile.js';
+import WeightChart from './weight/WeightChart.js';
 import { Button } from '@/components/ui/button.js';
 import { Navigate } from 'react-router';
 import { Edit } from 'lucide-react';
+import MacrosChart from './nutrition/MacrosChart.js';
 
 type DashboardProps = {};
 
@@ -22,6 +23,10 @@ const Dashboard = ({}: DashboardProps) => {
         <div className="flex flex-col gap-4">
           <WelcomeProfile />
           <KcalStatus />
+          <div className='card'>
+            <MacrosChart/>
+          </div>
+
           {showAddWeight ? (
             <AddWeight onSubmit={() => setShowAddWeight(false)} />
           ) : (
