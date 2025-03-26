@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button.js';
 import { Navigate } from 'react-router';
 import { Edit } from 'lucide-react';
 import MacrosChart from './nutrition/MacrosChart.js';
+import ProteinPieChart from './nutrition/ProteinPieChart.js';
 
 type DashboardProps = {};
 
@@ -23,6 +24,9 @@ const Dashboard = ({}: DashboardProps) => {
         <div className="flex flex-col gap-4">
           <WelcomeProfile />
           <KcalStatus />
+          <div className='card'>
+            <ProteinPieChart/>
+          </div>
           <div className='card'>
             <MacrosChart/>
           </div>
